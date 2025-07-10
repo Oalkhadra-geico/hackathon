@@ -50,18 +50,32 @@ def UserInputApp():
     selected_states, set_selected_states = hooks.use_state(set())
     # State for dropdown visibility
     show_dropdown, set_show_dropdown = hooks.use_state(False)
+    
     # State for selected LOBs
     selected_lobs, set_selected_lobs = hooks.use_state(set())
     # State for LOB dropdown visibility
     show_lob_dropdown, set_show_lob_dropdown = hooks.use_state(False)
+    
     # State for selected Filing Types
     selected_filing_types, set_selected_filing_types = hooks.use_state(set())
     # State for Filing Type dropdown visibility
     show_filing_type_dropdown, set_show_filing_type_dropdown = hooks.use_state(False)
+    
     # State for selected Response Types
     selected_response_types, set_selected_response_types = hooks.use_state(set())
     # State for Response Type dropdown visibility
     show_response_type_dropdown, set_show_response_type_dropdown = hooks.use_state(False)
+    
+    # State for selected Topics
+    selected_topics, set_selected_topics = hooks.use_state(set())
+    # State for Topic dropdown visibility
+    show_topics_dropdown, set_show_topics_dropdown = hooks.use_state(False)
+
+    # State for selected Carriers
+    selected_carriers, set_selected_carriers = hooks.use_state(set())
+    # State for Carrier dropdown visibility
+    show_carriers_dropdown, set_show_carriers_dropdown = hooks.use_state(False)
+
     # State for filtered data
     filtered_data, set_filtered_data = hooks.use_state(df)
 
@@ -150,8 +164,38 @@ def UserInputApp():
     def handle_response_type_dropdown_toggle(event):
         set_show_response_type_dropdown(not show_response_type_dropdown)
 
+    def handle_topics_toggle(topic):
+        def toggle(event):
+            if topic in selected_topics:
+                new_topic = selected_topics - {topic}
+                set_selected_topics(new_topic)
+            else:
+                new_topics = selected_topics | {topic}
+                set_selected_topics(new_topics)
+            # Apply filters whenever Response Types change
+            apply_filters()
+        return toggle
+
+    def handle_topics_dropdown_toggle(event):
+        set_show_topics_dropdown(not show_topics_dropdown)
+
+    def handle_carriers_toggle(carrier):
+        def toggle(event):
+            if carrier in selected_carriers:
+                new_carrier = selected_carriers - {carrier}
+                set_selected_carriers(new_carrier)
+            else:
+                new_carriers = selected_carriers | {carrier}
+                set_selected_carriers(new_carriers)
+            # Apply filters whenever Response Types change
+            apply_filters()
+        return toggle
+
+    def handle_carriers_dropdown_toggle(event):
+        set_show_carriers_dropdown(not show_carriers_dropdown)
+
     # Apply filters on component mount and whenever filters change
-    hooks.use_effect(apply_filters, [selected_states, selected_lobs, selected_filing_types, selected_response_types])
+    hooks.use_effect(apply_filters, [selected_states, selected_lobs, selected_filing_types, selected_response_types, selected_topics, selected_carriers])
 
     return html.div(
         {
@@ -549,6 +593,182 @@ def UserInputApp():
                                     ),
                                 )
                                 for filing_type in FILING_TYPE_OPTIONS
+                            ],
+                        ),
+                    ),
+                    # Topic Filter
+                    html.div(
+                        {},
+                        html.label(
+                            {
+                                "style": {
+                                    "display": "block",
+                                    "fontSize": "0.9rem",
+                                    "fontWeight": "500",
+                                    "color": "#4a5568",
+                                    "marginBottom": "0.5rem"
+                                }
+                            },
+                            "Filter by Topic"
+                        ),
+                        html.button(
+                            {
+                                "onClick": handle_topics_dropdown_toggle,
+                                "style": {
+                                    "width": "100%",
+                                    "padding": "12px 16px",
+                                    "backgroundColor": "#374151",
+                                    "color": "white",
+                                    "border": "none",
+                                    "borderRadius": "8px",
+                                    "cursor": "pointer",
+                                    "fontSize": "1rem",
+                                    "fontWeight": "500",
+                                    "transition": "all 0.2s ease",
+                                    "boxShadow": "0 2px 4px rgba(55, 65, 81, 0.3)"
+                                }
+                            },
+                            f"Topic ({len(selected_topics)} selected) {'▼' if not show_topics_dropdown else '▲'}",
+                        ),
+                        # Topic Dropdown
+                        html.div(
+                            {
+                                "style": {
+                                    "display": "block" if show_topics_dropdown else "none",
+                                    "border": "1px solid #e2e8f0",
+                                    "backgroundColor": "#fff",
+                                    "borderRadius": "8px",
+                                    "padding": "1rem",
+                                    "marginTop": "0.5rem",
+                                    "maxHeight": "200px",
+                                    "overflowY": "auto",
+                                    "boxShadow": "0 4px 6px rgba(0, 0, 0, 0.1)"
+                                }
+                            },
+                            [
+                                html.div(
+                                    {
+                                        "style": {
+                                            "marginBottom": "8px",
+                                            "padding": "4px 8px",
+                                            "borderRadius": "4px",
+                                            "backgroundColor": "#374151" if topic in selected_topics else "transparent",
+                                            "color": "white" if topic in selected_topics else "#2d3748",
+                                            "transition": "all 0.2s ease"
+                                        }
+                                    },
+                                    html.label(
+                                        {
+                                            "style": {
+                                                "display": "flex",
+                                                "alignItems": "center",
+                                                "cursor": "pointer",
+                                                "fontSize": "0.9rem"
+                                            }
+                                        },
+                                        html.input(
+                                            {
+                                                "type": "checkbox",
+                                                "checked": topic in selected_topics,
+                                                "onChange": handle_topics_toggle(topic),
+                                                "style": {
+                                                    "marginRight": "8px",
+                                                    "cursor": "pointer"
+                                                }
+                                            }
+                                        ),
+                                        topic,
+                                    ),
+                                )
+                                for topic in TOPIC_OPTIONS
+                            ],
+                        ),
+                    ),
+                    # Carrier Filter
+                    html.div(
+                        {},
+                        html.label(
+                            {
+                                "style": {
+                                    "display": "block",
+                                    "fontSize": "0.9rem",
+                                    "fontWeight": "500",
+                                    "color": "#4a5568",
+                                    "marginBottom": "0.5rem"
+                                }
+                            },
+                            "Filter by Topic"
+                        ),
+                        html.button(
+                            {
+                                "onClick": handle_carriers_dropdown_toggle,
+                                "style": {
+                                    "width": "100%",
+                                    "padding": "12px 16px",
+                                    "backgroundColor": "#374151",
+                                    "color": "white",
+                                    "border": "none",
+                                    "borderRadius": "8px",
+                                    "cursor": "pointer",
+                                    "fontSize": "1rem",
+                                    "fontWeight": "500",
+                                    "transition": "all 0.2s ease",
+                                    "boxShadow": "0 2px 4px rgba(55, 65, 81, 0.3)"
+                                }
+                            },
+                            f"Carrier ({len(selected_carriers)} selected) {'▼' if not show_carriers_dropdown else '▲'}",
+                        ),
+                        # Carrier Dropdown
+                        html.div(
+                            {
+                                "style": {
+                                    "display": "block" if show_carriers_dropdown else "none",
+                                    "border": "1px solid #e2e8f0",
+                                    "backgroundColor": "#fff",
+                                    "borderRadius": "8px",
+                                    "padding": "1rem",
+                                    "marginTop": "0.5rem",
+                                    "maxHeight": "200px",
+                                    "overflowY": "auto",
+                                    "boxShadow": "0 4px 6px rgba(0, 0, 0, 0.1)"
+                                }
+                            },
+                            [
+                                html.div(
+                                    {
+                                        "style": {
+                                            "marginBottom": "8px",
+                                            "padding": "4px 8px",
+                                            "borderRadius": "4px",
+                                            "backgroundColor": "#374151" if carrier in selected_carriers else "transparent",
+                                            "color": "white" if carrier in selected_carriers else "#2d3748",
+                                            "transition": "all 0.2s ease"
+                                        }
+                                    },
+                                    html.label(
+                                        {
+                                            "style": {
+                                                "display": "flex",
+                                                "alignItems": "center",
+                                                "cursor": "pointer",
+                                                "fontSize": "0.9rem"
+                                            }
+                                        },
+                                        html.input(
+                                            {
+                                                "type": "checkbox",
+                                                "checked": carrier in selected_carriers,
+                                                "onChange": handle_topics_toggle(carrier),
+                                                "style": {
+                                                    "marginRight": "8px",
+                                                    "cursor": "pointer"
+                                                }
+                                            }
+                                        ),
+                                        carrier,
+                                    ),
+                                )
+                                for carrier in CARRIER_OPTIONS
                             ],
                         ),
                     ),
