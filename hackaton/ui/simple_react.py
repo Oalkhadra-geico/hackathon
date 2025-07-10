@@ -2,10 +2,9 @@ import pandas as pd
 import reactpy
 from reactpy import html, hooks
 
-# Load the Excel file instead of CSV
-df = pd.read_excel('../ResponseData.xlsx')
+# Load the CSV file
+df = pd.read_csv('../ResponseData.csv')
 
-print(df.head())
 # List of US state abbreviations (including DC)
 STATES = [
     "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "DC", "FL", "GA", 
@@ -17,7 +16,7 @@ STATES = [
 
 # List of LOB (Line of Business) options
 LOB_OPTIONS = [
-    "AIP", "Auto", "Boat", "Commercial", "Cycle", "PURE", "RV", "Umbrella"
+    "AIP", "Boat", "Commercial", "Cycle", "Home Owners", "Personal Auto", "RV", "Umbrella"
 ]
 
 # List of Filing Type options
@@ -28,6 +27,19 @@ FILING_TYPE_OPTIONS = [
 # List of Response Type options
 RESPONSE_TYPE_OPTIONS = [
     "DOI Objection", "Annual Credit Questionnaire", "Market Conduct", "Standard Filing Inquiry"
+]
+
+# List of Topic options
+TOPIC_OPTIONS = [
+    "Actuarial Justification", "Additional Support/Exhibits", "Amendment", "Compliance", "Confirm Item",
+    "Credit", "Discounts", "Fee", "Filing Requirements", "Histogram", "Incomplete/Missing Items", 
+    "Models", "MTF", "Policy Holder Notification", "Rate Capping", "Rating Criteria/Factors", "Regulation/Statute",
+     "Submission Errors", "Tariffs", "Territory", "Tiers", "Underwriting"
+]
+
+# List of Carrier options
+CARRIER_OPTIONS = [
+    "AmFam", "GEICO", "Kemper", "Other", "Progressive"
 ]
 
 @reactpy.component
@@ -183,7 +195,7 @@ def UserInputApp():
                     },
                     html.img(
                         {
-                            "src": "https://www.geico.com/public/layout/geico-logo-white.svg",
+                            "src": "https://blog.logomyway.com/wp-content/uploads/2022/11/geico-logo.jpg",
                             "alt": "GEICO Logo",
                             "style": {
                                 "height": "40px",
@@ -219,7 +231,7 @@ def UserInputApp():
                                 "opacity": "0.9"
                             }
                         },
-                        "Data Operations & Risk Analysis Dashboard"
+                        "DORA: DOI Objection Research Assistant"
                     )
                 ),
                 # Spacer for logo balance
