@@ -3,12 +3,14 @@ import reactpy
 from reactpy import html, hooks
 import requests
 import json
+import numpy as np
 
-# Load the Excel file instead of CSV
+# Load the Excel file
 try:
-    df = pd.read_csv('../ResponseData.csv')
+    df = pd.read_excel('../ResponseData.xlsx', sheet_name='GEICO')
+    print(f"Successfully loaded Excel file with {len(df)} rows")
 except Exception as e:
-    print(f"Error loading CSV file: {e}")
+    print(f"Error loading Excel file: {e}")
     # Create empty dataframe as fallback
     df = pd.DataFrame()
 
@@ -48,6 +50,34 @@ TOPIC_OPTIONS = [
 CARRIER_OPTIONS = [
     "AmFam", "GEICO", "Kemper", "Other", "Progressive"
 ]
+
+def clean_data_for_json(data):
+    """
+    Clean data to make it JSON serializable by replacing NaN values with None.
+    
+    Args:
+        data: pandas DataFrame or list of dictionaries
+        
+    Returns:
+        list: Cleaned data with NaN values replaced by None
+    """
+    if isinstance(data, pd.DataFrame):
+        # Convert DataFrame to records and clean NaN values
+        records = data.to_dict('records')
+    else:
+        records = data
+    
+    cleaned_records = []
+    for record in records:
+        cleaned_record = {}
+        for key, value in record.items():
+            if pd.isna(value) or (isinstance(value, float) and np.isnan(value)):
+                cleaned_record[key] = None
+            else:
+                cleaned_record[key] = value
+        cleaned_records.append(cleaned_record)
+    
+    return cleaned_records
 
 @reactpy.component
 def UserInputApp():
@@ -230,7 +260,7 @@ def UserInputApp():
             # Prepare the data for backend
             backend_data = {
                 "query": user_input.strip(),
-                "filtered_data": filtered_data.to_dict('records'),
+                "filtered_data": clean_data_for_json(filtered_data),
                 "filter_summary": {
                     "total_records": len(filtered_data),
                     "states": list(selected_states),
@@ -254,12 +284,19 @@ def UserInputApp():
                 result = response.json()
                 set_llm_response(result.get("response", "No response from backend"))
             else:
-                set_llm_response(f"❌ Error: Backend returned status {response.status_code}")
+                try:
+                    error_data = response.json()
+                    error_message = error_data.get("error", f"Backend returned status {response.status_code}")
+                except:
+                    error_message = f"Backend returned status {response.status_code}"
+                set_llm_response(f"❌ Error: {error_message}")
                 
         except requests.exceptions.ConnectionError:
             set_llm_response("❌ Error: Cannot connect to backend. Please ensure the backend server is running.")
         except requests.exceptions.Timeout:
             set_llm_response("❌ Error: Request timed out. Please try again.")
+        except json.JSONDecodeError as e:
+            set_llm_response(f"❌ Error: Invalid JSON response from backend: {str(e)}")
         except Exception as e:
             set_llm_response(f"❌ Error: {str(e)}")
         finally:
