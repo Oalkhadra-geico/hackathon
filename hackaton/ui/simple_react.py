@@ -1,9 +1,16 @@
 import pandas as pd
 import reactpy
 from reactpy import html, hooks
+import requests
+import json
 
-# Load the CSV file
-df = pd.read_csv('../ResponseData.csv')
+# Load the Excel file instead of CSV
+try:
+    df = pd.read_excel('../ResponseData.xlsx')
+except Exception as e:
+    print(f"Error loading Excel file: {e}")
+    # Create empty dataframe as fallback
+    df = pd.DataFrame()
 
 # List of US state abbreviations (including DC)
 STATES = [
@@ -78,6 +85,10 @@ def UserInputApp():
 
     # State for filtered data
     filtered_data, set_filtered_data = hooks.use_state(df)
+    # State for LLM response
+    llm_response, set_llm_response = hooks.use_state("")
+    # State for loading
+    is_loading, set_is_loading = hooks.use_state(False)
 
     def apply_filters():
         """Apply the selected filters to the dataframe"""
@@ -201,6 +212,58 @@ def UserInputApp():
 
     def handle_carriers_dropdown_toggle(event):
         set_show_carriers_dropdown(not show_carriers_dropdown)
+
+    def submit_query_to_backend():
+        """Send the query and filtered data to the backend"""
+        if not user_input.strip():
+            set_llm_response("❌ Please enter a query first.")
+            return
+        
+        if len(filtered_data) == 0:
+            set_llm_response("❌ No data available with current filters. Please adjust your filters.")
+            return
+        
+        set_is_loading(True)
+        set_llm_response("🔄 Processing your query...")
+        
+        try:
+            # Prepare the data for backend
+            backend_data = {
+                "query": user_input.strip(),
+                "filtered_data": filtered_data.to_dict('records'),
+                "filter_summary": {
+                    "total_records": len(filtered_data),
+                    "states": list(selected_states),
+                    "lobs": list(selected_lobs),
+                    "filing_types": list(selected_filing_types),
+                    "response_types": list(selected_response_types),
+                    "topics": list(selected_topics),
+                    "carriers": list(selected_carriers)
+                }
+            }
+            
+            # Send to backend
+            response = requests.post(
+                "http://localhost:5000/query",
+                json=backend_data,
+                headers={"Content-Type": "application/json"},
+                timeout=30
+            )
+            
+            if response.status_code == 200:
+                result = response.json()
+                set_llm_response(result.get("response", "No response from backend"))
+            else:
+                set_llm_response(f"❌ Error: Backend returned status {response.status_code}")
+                
+        except requests.exceptions.ConnectionError:
+            set_llm_response("❌ Error: Cannot connect to backend. Please ensure the backend server is running.")
+        except requests.exceptions.Timeout:
+            set_llm_response("❌ Error: Request timed out. Please try again.")
+        except Exception as e:
+            set_llm_response(f"❌ Error: {str(e)}")
+        finally:
+            set_is_loading(False)
 
     # Apply filters on component mount and whenever filters change
     hooks.use_effect(apply_filters, [selected_states, selected_lobs, selected_filing_types, selected_response_types, selected_topics, selected_carriers])
@@ -1485,6 +1548,39 @@ def UserInputApp():
                         }
                     }
                 ),
+                # Submit Button
+                html.div(
+                    {
+                        "style": {
+                            "marginTop": "1rem",
+                            "textAlign": "right"
+                        }
+                    },
+                    html.button(
+                        {
+                            "onClick": submit_query_to_backend,
+                            "disabled": is_loading,
+                            "style": {
+                                "padding": "12px 24px",
+                                "fontSize": "1.1rem",
+                                "fontWeight": "600",
+                                "color": "white",
+                                "background": "linear-gradient(135deg, #667eea 0%, #764ba2 100%)" if not is_loading else "linear-gradient(135deg, #a0aec0 0%, #718096 100%)",
+                                "border": "none",
+                                "borderRadius": "10px",
+                                "cursor": "pointer" if not is_loading else "not-allowed",
+                                "transition": "all 0.3s ease",
+                                "boxShadow": "0 4px 12px rgba(102, 126, 234, 0.4)" if not is_loading else "0 2px 4px rgba(0, 0, 0, 0.1)",
+                                "transform": "translateY(0)",
+                                "hover": {
+                                    "transform": "translateY(-2px)",
+                                    "boxShadow": "0 6px 20px rgba(102, 126, 234, 0.6)"
+                                } if not is_loading else {}
+                            }
+                        },
+                        "🔄 Processing..." if is_loading else "🚀 Submit Query"
+                    )
+                ),
             ),
             # Sample Data Section
             html.div(
@@ -1538,7 +1634,7 @@ def UserInputApp():
                                     "fontWeight": "500"
                                 }
                             },
-                            str(filtered_data.head(1).to_string()) if len(filtered_data) > 0 else "❌ No data matches the current filters. Please adjust your filter selection."
+                            llm_response if llm_response else ("❌ No data matches the current filters. Please adjust your filter selection." if len(filtered_data) == 0 else "💡 Enter a query above and click 'Submit Query' to get AI-powered insights from your filtered data.")
                         ),
                 ),
             ),
