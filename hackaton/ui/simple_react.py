@@ -6,9 +6,9 @@ import json
 
 # Load the Excel file instead of CSV
 try:
-    df = pd.read_excel('../ResponseData.xlsx')
+    df = pd.read_csv('../ResponseData.csv')
 except Exception as e:
-    print(f"Error loading Excel file: {e}")
+    print(f"Error loading CSV file: {e}")
     # Create empty dataframe as fallback
     df = pd.DataFrame()
 
@@ -213,7 +213,7 @@ def UserInputApp():
     def handle_carriers_dropdown_toggle(event):
         set_show_carriers_dropdown(not show_carriers_dropdown)
 
-    def submit_query_to_backend():
+    def submit_query_to_backend(event):
         """Send the query and filtered data to the backend"""
         if not user_input.strip():
             set_llm_response("❌ Please enter a query first.")
