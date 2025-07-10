@@ -20,6 +20,16 @@ LOB_OPTIONS = [
     "AIP", "Auto", "Boat", "Commercial", "Cycle", "PURE", "RV", "Umbrella"
 ]
 
+# List of Filing Type options
+FILING_TYPE_OPTIONS = [
+    "Form", "Rate", "Rate/Rule", "Rule", "Symbols", "Underwriting"
+]
+
+# List of Response Type options
+RESPONSE_TYPE_OPTIONS = [
+    "DOI Objection", "Annual Credit Questionnaire", "Market Conduct", "Standard Filing Inquiry"
+]
+
 @reactpy.component
 def UserInputApp():
     # State for user input
@@ -32,6 +42,14 @@ def UserInputApp():
     selected_lobs, set_selected_lobs = hooks.use_state(set())
     # State for LOB dropdown visibility
     show_lob_dropdown, set_show_lob_dropdown = hooks.use_state(False)
+    # State for selected Filing Types
+    selected_filing_types, set_selected_filing_types = hooks.use_state(set())
+    # State for Filing Type dropdown visibility
+    show_filing_type_dropdown, set_show_filing_type_dropdown = hooks.use_state(False)
+    # State for selected Response Types
+    selected_response_types, set_selected_response_types = hooks.use_state(set())
+    # State for Response Type dropdown visibility
+    show_response_type_dropdown, set_show_response_type_dropdown = hooks.use_state(False)
     # State for filtered data
     filtered_data, set_filtered_data = hooks.use_state(df)
 
@@ -46,6 +64,14 @@ def UserInputApp():
         # Filter by LOBs if any are selected
         if selected_lobs:
             filtered_df = filtered_df[filtered_df['LOB'].isin(selected_lobs)]
+        
+        # Filter by Filing Types if any are selected
+        if selected_filing_types:
+            filtered_df = filtered_df[filtered_df['Filing_Type'].isin(selected_filing_types)]
+        
+        # Filter by Response Types if any are selected
+        if selected_response_types:
+            filtered_df = filtered_df[filtered_df['RespType'].isin(selected_response_types)]
         
         set_filtered_data(filtered_df)
 
@@ -82,8 +108,38 @@ def UserInputApp():
     def handle_lob_dropdown_toggle(event):
         set_show_lob_dropdown(not show_lob_dropdown)
 
+    def handle_filing_type_toggle(filing_type):
+        def toggle(event):
+            if filing_type in selected_filing_types:
+                new_filing_types = selected_filing_types - {filing_type}
+                set_selected_filing_types(new_filing_types)
+            else:
+                new_filing_types = selected_filing_types | {filing_type}
+                set_selected_filing_types(new_filing_types)
+            # Apply filters whenever Filing Types change
+            apply_filters()
+        return toggle
+
+    def handle_filing_type_dropdown_toggle(event):
+        set_show_filing_type_dropdown(not show_filing_type_dropdown)
+
+    def handle_response_type_toggle(response_type):
+        def toggle(event):
+            if response_type in selected_response_types:
+                new_response_types = selected_response_types - {response_type}
+                set_selected_response_types(new_response_types)
+            else:
+                new_response_types = selected_response_types | {response_type}
+                set_selected_response_types(new_response_types)
+            # Apply filters whenever Response Types change
+            apply_filters()
+        return toggle
+
+    def handle_response_type_dropdown_toggle(event):
+        set_show_response_type_dropdown(not show_response_type_dropdown)
+
     # Apply filters on component mount and whenever filters change
-    hooks.use_effect(apply_filters, [selected_states, selected_lobs])
+    hooks.use_effect(apply_filters, [selected_states, selected_lobs, selected_filing_types, selected_response_types])
 
     return html.div(
         {
@@ -358,6 +414,182 @@ def UserInputApp():
                             ],
                         ),
                     ),
+                    # Filing Type Filter
+                    html.div(
+                        {},
+                        html.label(
+                            {
+                                "style": {
+                                    "display": "block",
+                                    "fontSize": "0.9rem",
+                                    "fontWeight": "500",
+                                    "color": "#4a5568",
+                                    "marginBottom": "0.5rem"
+                                }
+                            },
+                            "📋 Filter by Filing Type"
+                        ),
+                        html.button(
+                            {
+                                "onClick": handle_filing_type_dropdown_toggle,
+                                "style": {
+                                    "width": "100%",
+                                    "padding": "12px 16px",
+                                    "backgroundColor": "#48bb78",
+                                    "color": "white",
+                                    "border": "none",
+                                    "borderRadius": "8px",
+                                    "cursor": "pointer",
+                                    "fontSize": "1rem",
+                                    "fontWeight": "500",
+                                    "transition": "all 0.2s ease",
+                                    "boxShadow": "0 2px 4px rgba(72, 187, 120, 0.3)"
+                                }
+                            },
+                            f"Filing Type ({len(selected_filing_types)} selected) {'▼' if not show_filing_type_dropdown else '▲'}",
+                        ),
+                        # Filing Type Dropdown
+                        html.div(
+                            {
+                                "style": {
+                                    "display": "block" if show_filing_type_dropdown else "none",
+                                    "border": "1px solid #e2e8f0",
+                                    "backgroundColor": "#fff",
+                                    "borderRadius": "8px",
+                                    "padding": "1rem",
+                                    "marginTop": "0.5rem",
+                                    "maxHeight": "200px",
+                                    "overflowY": "auto",
+                                    "boxShadow": "0 4px 6px rgba(0, 0, 0, 0.1)"
+                                }
+                            },
+                            [
+                                html.div(
+                                    {
+                                        "style": {
+                                            "marginBottom": "8px",
+                                            "padding": "4px 8px",
+                                            "borderRadius": "4px",
+                                            "backgroundColor": "#48bb78" if filing_type in selected_filing_types else "transparent",
+                                            "color": "white" if filing_type in selected_filing_types else "#2d3748",
+                                            "transition": "all 0.2s ease"
+                                        }
+                                    },
+                                    html.label(
+                                        {
+                                            "style": {
+                                                "display": "flex",
+                                                "alignItems": "center",
+                                                "cursor": "pointer",
+                                                "fontSize": "0.9rem"
+                                            }
+                                        },
+                                        html.input(
+                                            {
+                                                "type": "checkbox",
+                                                "checked": filing_type in selected_filing_types,
+                                                "onChange": handle_filing_type_toggle(filing_type),
+                                                "style": {
+                                                    "marginRight": "8px",
+                                                    "cursor": "pointer"
+                                                }
+                                            }
+                                        ),
+                                        filing_type,
+                                    ),
+                                )
+                                for filing_type in FILING_TYPE_OPTIONS
+                            ],
+                        ),
+                    ),
+                    # Response Type Filter
+                    html.div(
+                        {},
+                        html.label(
+                            {
+                                "style": {
+                                    "display": "block",
+                                    "fontSize": "0.9rem",
+                                    "fontWeight": "500",
+                                    "color": "#4a5568",
+                                    "marginBottom": "0.5rem"
+                                }
+                            },
+                            "📞 Filter by Response Type"
+                        ),
+                        html.button(
+                            {
+                                "onClick": handle_response_type_dropdown_toggle,
+                                "style": {
+                                    "width": "100%",
+                                    "padding": "12px 16px",
+                                    "backgroundColor": "#ed8936",
+                                    "color": "white",
+                                    "border": "none",
+                                    "borderRadius": "8px",
+                                    "cursor": "pointer",
+                                    "fontSize": "1rem",
+                                    "fontWeight": "500",
+                                    "transition": "all 0.2s ease",
+                                    "boxShadow": "0 2px 4px rgba(237, 137, 54, 0.3)"
+                                }
+                            },
+                            f"Response Type ({len(selected_response_types)} selected) {'▼' if not show_response_type_dropdown else '▲'}",
+                        ),
+                        # Response Type Dropdown
+                        html.div(
+                            {
+                                "style": {
+                                    "display": "block" if show_response_type_dropdown else "none",
+                                    "border": "1px solid #e2e8f0",
+                                    "backgroundColor": "#fff",
+                                    "borderRadius": "8px",
+                                    "padding": "1rem",
+                                    "marginTop": "0.5rem",
+                                    "maxHeight": "200px",
+                                    "overflowY": "auto",
+                                    "boxShadow": "0 4px 6px rgba(0, 0, 0, 0.1)"
+                                }
+                            },
+                            [
+                                html.div(
+                                    {
+                                        "style": {
+                                            "marginBottom": "8px",
+                                            "padding": "4px 8px",
+                                            "borderRadius": "4px",
+                                            "backgroundColor": "#ed8936" if response_type in selected_response_types else "transparent",
+                                            "color": "white" if response_type in selected_response_types else "#2d3748",
+                                            "transition": "all 0.2s ease"
+                                        }
+                                    },
+                                    html.label(
+                                        {
+                                            "style": {
+                                                "display": "flex",
+                                                "alignItems": "center",
+                                                "cursor": "pointer",
+                                                "fontSize": "0.9rem"
+                                            }
+                                        },
+                                        html.input(
+                                            {
+                                                "type": "checkbox",
+                                                "checked": response_type in selected_response_types,
+                                                "onChange": handle_response_type_toggle(response_type),
+                                                "style": {
+                                                    "marginRight": "8px",
+                                                    "cursor": "pointer"
+                                                }
+                                            }
+                                        ),
+                                        response_type,
+                                    ),
+                                )
+                                for response_type in RESPONSE_TYPE_OPTIONS
+                            ],
+                        ),
+                    ),
                 ),
             ),
             # Input Section
@@ -502,7 +734,7 @@ def UserInputApp():
                             ', '.join(sorted(selected_lobs)) if selected_lobs else 'No LOBs selected'
                         ),
                     ),
-                    # Query Status Card
+                    # Selected Filing Types Card
                     html.div(
                         {
                             "style": {
@@ -511,6 +743,70 @@ def UserInputApp():
                                 "padding": "1.5rem",
                                 "borderRadius": "8px",
                                 "boxShadow": "0 2px 4px rgba(72, 187, 120, 0.3)"
+                            }
+                        },
+                        html.h3(
+                            {
+                                "style": {
+                                    "margin": "0 0 0.5rem 0",
+                                    "fontSize": "1.1rem",
+                                    "fontWeight": "600"
+                                }
+                            },
+                            "📋 Selected Filing Types"
+                        ),
+                        html.p(
+                            {
+                                "style": {
+                                    "margin": "0",
+                                    "fontSize": "0.9rem",
+                                    "opacity": "0.9"
+                                }
+                            },
+                            ', '.join(sorted(selected_filing_types)) if selected_filing_types else 'No filing types selected'
+                        ),
+                    ),
+                    # Selected Response Types Card
+                    html.div(
+                        {
+                            "style": {
+                                "background": "linear-gradient(135deg, #ed8936 0%, #dd6b20 100%)",
+                                "color": "white",
+                                "padding": "1.5rem",
+                                "borderRadius": "8px",
+                                "boxShadow": "0 2px 4px rgba(237, 137, 54, 0.3)"
+                            }
+                        },
+                        html.h3(
+                            {
+                                "style": {
+                                    "margin": "0 0 0.5rem 0",
+                                    "fontSize": "1.1rem",
+                                    "fontWeight": "600"
+                                }
+                            },
+                            "📞 Selected Response Types"
+                        ),
+                        html.p(
+                            {
+                                "style": {
+                                    "margin": "0",
+                                    "fontSize": "0.9rem",
+                                    "opacity": "0.9"
+                                }
+                            },
+                            ', '.join(sorted(selected_response_types)) if selected_response_types else 'No response types selected'
+                        ),
+                    ),
+                    # Query Status Card
+                    html.div(
+                        {
+                            "style": {
+                                "background": "linear-gradient(135deg, #9f7aea 0%, #805ad5 100%)",
+                                "color": "white",
+                                "padding": "1.5rem",
+                                "borderRadius": "8px",
+                                "boxShadow": "0 2px 4px rgba(159, 122, 234, 0.3)"
                             }
                         },
                         html.h3(
@@ -667,6 +963,72 @@ def UserInputApp():
                                 }
                             },
                             "Unique LOBs"
+                        ),
+                    ),
+                    # Unique Filing Types
+                    html.div(
+                        {
+                            "style": {
+                                "background": "linear-gradient(135deg, #48bb78 0%, #38a169 100%)",
+                                "color": "white",
+                                "padding": "1.5rem",
+                                "borderRadius": "8px",
+                                "textAlign": "center",
+                                "boxShadow": "0 2px 4px rgba(72, 187, 120, 0.3)"
+                            }
+                        },
+                        html.h3(
+                            {
+                                "style": {
+                                    "margin": "0 0 0.5rem 0",
+                                    "fontSize": "2rem",
+                                    "fontWeight": "700"
+                                }
+                            },
+                            str(len(filtered_data['Filing_Type'].unique()) if len(filtered_data) > 0 else 0)
+                        ),
+                        html.p(
+                            {
+                                "style": {
+                                    "margin": "0",
+                                    "fontSize": "0.9rem",
+                                    "opacity": "0.9"
+                                }
+                            },
+                            "Unique Filing Types"
+                        ),
+                    ),
+                    # Unique Response Types
+                    html.div(
+                        {
+                            "style": {
+                                "background": "linear-gradient(135deg, #f56565 0%, #e53e3e 100%)",
+                                "color": "white",
+                                "padding": "1.5rem",
+                                "borderRadius": "8px",
+                                "textAlign": "center",
+                                "boxShadow": "0 2px 4px rgba(245, 101, 101, 0.3)"
+                            }
+                        },
+                        html.h3(
+                            {
+                                "style": {
+                                    "margin": "0 0 0.5rem 0",
+                                    "fontSize": "2rem",
+                                    "fontWeight": "700"
+                                }
+                            },
+                            str(len(filtered_data['RespType'].unique()) if len(filtered_data) > 0 else 0)
+                        ),
+                        html.p(
+                            {
+                                "style": {
+                                    "margin": "0",
+                                    "fontSize": "0.9rem",
+                                    "opacity": "0.9"
+                                }
+                            },
+                            "Unique Response Types"
                         ),
                     ),
                 ),
