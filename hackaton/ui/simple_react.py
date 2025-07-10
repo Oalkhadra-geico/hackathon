@@ -155,11 +155,11 @@ def UserInputApp():
         html.div(
             {
                 "style": {
-                    "background": "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+                    "background": "#2563eb",
                     "color": "white",
-                    "padding": "2rem 0",
+                    "padding": "1.5rem 0",
                     "marginBottom": "2rem",
-                    "boxShadow": "0 4px 6px rgba(0, 0, 0, 0.1)"
+                    "boxShadow": "0 2px 4px rgba(0, 0, 0, 0.1)"
                 }
             },
             html.div(
@@ -167,31 +167,69 @@ def UserInputApp():
                     "style": {
                         "maxWidth": "1200px",
                         "margin": "0 auto",
-                        "padding": "0 20px"
+                        "padding": "0 20px",
+                        "display": "flex",
+                        "alignItems": "center",
+                        "justifyContent": "space-between"
                     }
                 },
-                html.h1(
+                # Logo Section
+                html.div(
                     {
                         "style": {
-                            "fontSize": "3rem",
-                            "fontWeight": "700",
-                            "margin": "0",
-                            "textAlign": "center",
-                            "letterSpacing": "0.05em"
+                            "display": "flex",
+                            "alignItems": "center"
                         }
                     },
-                    "DORA"
+                    html.img(
+                        {
+                            "src": "https://www.geico.com/public/layout/geico-logo-white.svg",
+                            "alt": "GEICO Logo",
+                            "style": {
+                                "height": "40px",
+                                "marginRight": "2rem"
+                            }
+                        }
+                    )
                 ),
-                html.p(
+                # Title Section
+                html.div(
                     {
                         "style": {
-                            "fontSize": "1.2rem",
-                            "margin": "0.5rem 0 0 0",
-                            "textAlign": "center",
-                            "opacity": "0.9"
+                            "flex": "1",
+                            "textAlign": "center"
                         }
                     },
-                    "Data Operations & Risk Analysis Dashboard"
+                    html.h1(
+                        {
+                            "style": {
+                                "fontSize": "2.5rem",
+                                "fontWeight": "600",
+                                "margin": "0",
+                                "letterSpacing": "0.05em"
+                            }
+                        },
+                        "DORA"
+                    ),
+                    html.p(
+                        {
+                            "style": {
+                                "fontSize": "1rem",
+                                "margin": "0.5rem 0 0 0",
+                                "opacity": "0.9"
+                            }
+                        },
+                        "Data Operations & Risk Analysis Dashboard"
+                    )
+                ),
+                # Spacer for logo balance
+                html.div(
+                    {
+                        "style": {
+                            "width": "40px",
+                            "marginLeft": "2rem"
+                        }
+                    }
                 )
             )
         ),
@@ -223,11 +261,11 @@ def UserInputApp():
                             "fontWeight": "600",
                             "color": "#2d3748",
                             "margin": "0 0 1.5rem 0",
-                            "borderBottom": "2px solid #667eea",
+                            "borderBottom": "2px solid #2563eb",
                             "paddingBottom": "0.5rem"
                         }
                     },
-                    "🔍 Filters"
+                    "Filters"
                 ),
                 # Filter Grid
                 html.div(
@@ -251,7 +289,7 @@ def UserInputApp():
                                     "marginBottom": "0.5rem"
                                 }
                             },
-                            "📍 Filter by State"
+                            "Filter by State"
                         ),
                         html.button(
                             {
@@ -259,7 +297,7 @@ def UserInputApp():
                                 "style": {
                                     "width": "100%",
                                     "padding": "12px 16px",
-                                    "backgroundColor": "#667eea",
+                                    "backgroundColor": "#2563eb",
                                     "color": "white",
                                     "border": "none",
                                     "borderRadius": "8px",
@@ -267,7 +305,7 @@ def UserInputApp():
                                     "fontSize": "1rem",
                                     "fontWeight": "500",
                                     "transition": "all 0.2s ease",
-                                    "boxShadow": "0 2px 4px rgba(102, 126, 234, 0.3)"
+                                    "boxShadow": "0 2px 4px rgba(37, 99, 235, 0.3)"
                                 }
                             },
                             f"States ({len(selected_states)} selected) {'▼' if not show_dropdown else '▲'}",
@@ -294,7 +332,7 @@ def UserInputApp():
                                             "marginBottom": "8px",
                                             "padding": "4px 8px",
                                             "borderRadius": "4px",
-                                            "backgroundColor": "#667eea" if state in selected_states else "transparent",
+                                            "backgroundColor": "#2563eb" if state in selected_states else "transparent",
                                             "color": "white" if state in selected_states else "#2d3748",
                                             "transition": "all 0.2s ease"
                                         }
@@ -339,7 +377,7 @@ def UserInputApp():
                                     "marginBottom": "0.5rem"
                                 }
                             },
-                            "💼 Filter by Line of Business"
+                            "Filter by Line of Business"
                         ),
                         html.button(
                             {
@@ -347,7 +385,7 @@ def UserInputApp():
                                 "style": {
                                     "width": "100%",
                                     "padding": "12px 16px",
-                                    "backgroundColor": "#764ba2",
+                                    "backgroundColor": "#6b7280",
                                     "color": "white",
                                     "border": "none",
                                     "borderRadius": "8px",
@@ -355,7 +393,7 @@ def UserInputApp():
                                     "fontSize": "1rem",
                                     "fontWeight": "500",
                                     "transition": "all 0.2s ease",
-                                    "boxShadow": "0 2px 4px rgba(118, 75, 162, 0.3)"
+                                    "boxShadow": "0 2px 4px rgba(107, 114, 128, 0.3)"
                                 }
                             },
                             f"LOB ({len(selected_lobs)} selected) {'▼' if not show_lob_dropdown else '▲'}",
@@ -382,7 +420,7 @@ def UserInputApp():
                                             "marginBottom": "8px",
                                             "padding": "4px 8px",
                                             "borderRadius": "4px",
-                                            "backgroundColor": "#764ba2" if lob in selected_lobs else "transparent",
+                                            "backgroundColor": "#6b7280" if lob in selected_lobs else "transparent",
                                             "color": "white" if lob in selected_lobs else "#2d3748",
                                             "transition": "all 0.2s ease"
                                         }
@@ -427,7 +465,7 @@ def UserInputApp():
                                     "marginBottom": "0.5rem"
                                 }
                             },
-                            "📋 Filter by Filing Type"
+                            "Filter by Filing Type"
                         ),
                         html.button(
                             {
@@ -435,7 +473,7 @@ def UserInputApp():
                                 "style": {
                                     "width": "100%",
                                     "padding": "12px 16px",
-                                    "backgroundColor": "#48bb78",
+                                    "backgroundColor": "#374151",
                                     "color": "white",
                                     "border": "none",
                                     "borderRadius": "8px",
@@ -443,7 +481,7 @@ def UserInputApp():
                                     "fontSize": "1rem",
                                     "fontWeight": "500",
                                     "transition": "all 0.2s ease",
-                                    "boxShadow": "0 2px 4px rgba(72, 187, 120, 0.3)"
+                                    "boxShadow": "0 2px 4px rgba(55, 65, 81, 0.3)"
                                 }
                             },
                             f"Filing Type ({len(selected_filing_types)} selected) {'▼' if not show_filing_type_dropdown else '▲'}",
@@ -470,7 +508,7 @@ def UserInputApp():
                                             "marginBottom": "8px",
                                             "padding": "4px 8px",
                                             "borderRadius": "4px",
-                                            "backgroundColor": "#48bb78" if filing_type in selected_filing_types else "transparent",
+                                            "backgroundColor": "#374151" if filing_type in selected_filing_types else "transparent",
                                             "color": "white" if filing_type in selected_filing_types else "#2d3748",
                                             "transition": "all 0.2s ease"
                                         }
@@ -515,7 +553,7 @@ def UserInputApp():
                                     "marginBottom": "0.5rem"
                                 }
                             },
-                            "📞 Filter by Response Type"
+                            "Filter by Response Type"
                         ),
                         html.button(
                             {
@@ -523,7 +561,7 @@ def UserInputApp():
                                 "style": {
                                     "width": "100%",
                                     "padding": "12px 16px",
-                                    "backgroundColor": "#ed8936",
+                                    "backgroundColor": "#4b5563",
                                     "color": "white",
                                     "border": "none",
                                     "borderRadius": "8px",
@@ -531,7 +569,7 @@ def UserInputApp():
                                     "fontSize": "1rem",
                                     "fontWeight": "500",
                                     "transition": "all 0.2s ease",
-                                    "boxShadow": "0 2px 4px rgba(237, 137, 54, 0.3)"
+                                    "boxShadow": "0 2px 4px rgba(75, 85, 99, 0.3)"
                                 }
                             },
                             f"Response Type ({len(selected_response_types)} selected) {'▼' if not show_response_type_dropdown else '▲'}",
@@ -558,7 +596,7 @@ def UserInputApp():
                                             "marginBottom": "8px",
                                             "padding": "4px 8px",
                                             "borderRadius": "4px",
-                                            "backgroundColor": "#ed8936" if response_type in selected_response_types else "transparent",
+                                            "backgroundColor": "#4b5563" if response_type in selected_response_types else "transparent",
                                             "color": "white" if response_type in selected_response_types else "#2d3748",
                                             "transition": "all 0.2s ease"
                                         }
@@ -611,11 +649,11 @@ def UserInputApp():
                             "fontWeight": "600",
                             "color": "#2d3748",
                             "margin": "0 0 1.5rem 0",
-                            "borderBottom": "2px solid #667eea",
+                            "borderBottom": "2px solid #2563eb",
                             "paddingBottom": "0.5rem"
                         }
                     },
-                    "✏️ Query Input"
+                    "Query Input"
                 ),
                 html.textarea(
                     {
@@ -656,11 +694,11 @@ def UserInputApp():
                             "fontWeight": "600",
                             "color": "#2d3748",
                             "margin": "0 0 1.5rem 0",
-                            "borderBottom": "2px solid #667eea",
+                            "borderBottom": "2px solid #2563eb",
                             "paddingBottom": "0.5rem"
                         }
                     },
-                    "📊 Current Selection"
+                    "Current Selection"
                 ),
                 html.div(
                     {
@@ -674,11 +712,11 @@ def UserInputApp():
                     html.div(
                         {
                             "style": {
-                                "background": "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+                                "background": "#2563eb",
                                 "color": "white",
                                 "padding": "1.5rem",
                                 "borderRadius": "8px",
-                                "boxShadow": "0 2px 4px rgba(102, 126, 234, 0.3)"
+                                "boxShadow": "0 2px 4px rgba(37, 99, 235, 0.3)"
                             }
                         },
                         html.h3(
@@ -689,7 +727,7 @@ def UserInputApp():
                                     "fontWeight": "600"
                                 }
                             },
-                            "📍 Selected States"
+                            "Selected States"
                         ),
                         html.p(
                             {
@@ -706,11 +744,11 @@ def UserInputApp():
                     html.div(
                         {
                             "style": {
-                                "background": "linear-gradient(135deg, #764ba2 0%, #667eea 100%)",
+                                "background": "#6b7280",
                                 "color": "white",
                                 "padding": "1.5rem",
                                 "borderRadius": "8px",
-                                "boxShadow": "0 2px 4px rgba(118, 75, 162, 0.3)"
+                                "boxShadow": "0 2px 4px rgba(107, 114, 128, 0.3)"
                             }
                         },
                         html.h3(
@@ -721,7 +759,7 @@ def UserInputApp():
                                     "fontWeight": "600"
                                 }
                             },
-                            "💼 Selected LOBs"
+                            "Selected LOBs"
                         ),
                         html.p(
                             {
@@ -738,11 +776,11 @@ def UserInputApp():
                     html.div(
                         {
                             "style": {
-                                "background": "linear-gradient(135deg, #48bb78 0%, #38a169 100%)",
+                                "background": "#374151",
                                 "color": "white",
                                 "padding": "1.5rem",
                                 "borderRadius": "8px",
-                                "boxShadow": "0 2px 4px rgba(72, 187, 120, 0.3)"
+                                "boxShadow": "0 2px 4px rgba(55, 65, 81, 0.3)"
                             }
                         },
                         html.h3(
@@ -753,7 +791,7 @@ def UserInputApp():
                                     "fontWeight": "600"
                                 }
                             },
-                            "📋 Selected Filing Types"
+                            "Selected Filing Types"
                         ),
                         html.p(
                             {
@@ -770,11 +808,11 @@ def UserInputApp():
                     html.div(
                         {
                             "style": {
-                                "background": "linear-gradient(135deg, #ed8936 0%, #dd6b20 100%)",
+                                "background": "#4b5563",
                                 "color": "white",
                                 "padding": "1.5rem",
                                 "borderRadius": "8px",
-                                "boxShadow": "0 2px 4px rgba(237, 137, 54, 0.3)"
+                                "boxShadow": "0 2px 4px rgba(75, 85, 99, 0.3)"
                             }
                         },
                         html.h3(
@@ -785,7 +823,7 @@ def UserInputApp():
                                     "fontWeight": "600"
                                 }
                             },
-                            "📞 Selected Response Types"
+                            "Selected Response Types"
                         ),
                         html.p(
                             {
@@ -802,11 +840,11 @@ def UserInputApp():
                     html.div(
                         {
                             "style": {
-                                "background": "linear-gradient(135deg, #9f7aea 0%, #805ad5 100%)",
+                                "background": "#111827",
                                 "color": "white",
                                 "padding": "1.5rem",
                                 "borderRadius": "8px",
-                                "boxShadow": "0 2px 4px rgba(159, 122, 234, 0.3)"
+                                "boxShadow": "0 2px 4px rgba(17, 24, 39, 0.3)"
                             }
                         },
                         html.h3(
@@ -817,7 +855,7 @@ def UserInputApp():
                                     "fontWeight": "600"
                                 }
                             },
-                            "✏️ Query Status"
+                            "Query Status"
                         ),
                         html.p(
                             {
@@ -851,11 +889,11 @@ def UserInputApp():
                             "fontWeight": "600",
                             "color": "#2d3748",
                             "margin": "0 0 1.5rem 0",
-                            "borderBottom": "2px solid #667eea",
+                            "borderBottom": "2px solid #2563eb",
                             "paddingBottom": "0.5rem"
                         }
                     },
-                    "📈 Data Analytics"
+                    "Data Analytics"
                 ),
                 html.div(
                     {
@@ -870,12 +908,12 @@ def UserInputApp():
                     html.div(
                         {
                             "style": {
-                                "background": "linear-gradient(135deg, #ed8936 0%, #dd6b20 100%)",
+                                "background": "#2563eb",
                                 "color": "white",
                                 "padding": "1.5rem",
                                 "borderRadius": "8px",
                                 "textAlign": "center",
-                                "boxShadow": "0 2px 4px rgba(237, 137, 54, 0.3)"
+                                "boxShadow": "0 2px 4px rgba(37, 99, 235, 0.3)"
                             }
                         },
                         html.h3(
@@ -903,12 +941,12 @@ def UserInputApp():
                     html.div(
                         {
                             "style": {
-                                "background": "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+                                "background": "#6b7280",
                                 "color": "white",
                                 "padding": "1.5rem",
                                 "borderRadius": "8px",
                                 "textAlign": "center",
-                                "boxShadow": "0 2px 4px rgba(102, 126, 234, 0.3)"
+                                "boxShadow": "0 2px 4px rgba(107, 114, 128, 0.3)"
                             }
                         },
                         html.h3(
@@ -936,12 +974,12 @@ def UserInputApp():
                     html.div(
                         {
                             "style": {
-                                "background": "linear-gradient(135deg, #9f7aea 0%, #805ad5 100%)",
+                                "background": "#374151",
                                 "color": "white",
                                 "padding": "1.5rem",
                                 "borderRadius": "8px",
                                 "textAlign": "center",
-                                "boxShadow": "0 2px 4px rgba(159, 122, 234, 0.3)"
+                                "boxShadow": "0 2px 4px rgba(55, 65, 81, 0.3)"
                             }
                         },
                         html.h3(
@@ -969,12 +1007,12 @@ def UserInputApp():
                     html.div(
                         {
                             "style": {
-                                "background": "linear-gradient(135deg, #48bb78 0%, #38a169 100%)",
+                                "background": "#4b5563",
                                 "color": "white",
                                 "padding": "1.5rem",
                                 "borderRadius": "8px",
                                 "textAlign": "center",
-                                "boxShadow": "0 2px 4px rgba(72, 187, 120, 0.3)"
+                                "boxShadow": "0 2px 4px rgba(75, 85, 99, 0.3)"
                             }
                         },
                         html.h3(
@@ -1002,12 +1040,12 @@ def UserInputApp():
                     html.div(
                         {
                             "style": {
-                                "background": "linear-gradient(135deg, #f56565 0%, #e53e3e 100%)",
+                                "background": "#111827",
                                 "color": "white",
                                 "padding": "1.5rem",
                                 "borderRadius": "8px",
                                 "textAlign": "center",
-                                "boxShadow": "0 2px 4px rgba(245, 101, 101, 0.3)"
+                                "boxShadow": "0 2px 4px rgba(17, 24, 39, 0.3)"
                             }
                         },
                         html.h3(
@@ -1052,11 +1090,11 @@ def UserInputApp():
                             "fontWeight": "600",
                             "color": "#2d3748",
                             "margin": "0 0 1.5rem 0",
-                            "borderBottom": "2px solid #667eea",
+                            "borderBottom": "2px solid #2563eb",
                             "paddingBottom": "0.5rem"
                         }
                     },
-                    "📋 Sample Data Preview"
+                    "Sample Data Preview"
                 ),
                 html.div(
                     {
@@ -1081,7 +1119,7 @@ def UserInputApp():
                                 "lineHeight": "1.5"
                             }
                         },
-                        str(filtered_data.head(10).to_string()) if len(filtered_data) > 0 else "⚠️ No data matches the current filters. Please adjust your filter selection."
+                        str(filtered_data.head(10).to_string()) if len(filtered_data) > 0 else "No data matches the current filters. Please adjust your filter selection."
                     ),
                 ),
             ),
