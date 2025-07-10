@@ -211,13 +211,30 @@ def UserInputApp():
         html.div(
             {
                 "style": {
-                    "background": "#2563eb",
+                    "background": "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
                     "color": "white",
-                    "padding": "1.5rem 0",
+                    "padding": "2rem 0",
                     "marginBottom": "2rem",
-                    "boxShadow": "0 2px 4px rgba(0, 0, 0, 0.1)"
+                    "boxShadow": "0 4px 20px rgba(0, 0, 0, 0.15)",
+                    "position": "relative",
+                    "overflow": "hidden"
                 }
             },
+            # Background decoration
+            html.div(
+                {
+                    "style": {
+                        "position": "absolute",
+                        "top": "-50%",
+                        "right": "-10%",
+                        "width": "200px",
+                        "height": "200px",
+                        "background": "rgba(255, 255, 255, 0.1)",
+                        "borderRadius": "50%",
+                        "transform": "rotate(45deg)"
+                    }
+                }
+            ),
             html.div(
                 {
                     "style": {
@@ -226,7 +243,9 @@ def UserInputApp():
                         "padding": "0 20px",
                         "display": "flex",
                         "alignItems": "center",
-                        "justifyContent": "space-between"
+                        "justifyContent": "space-between",
+                        "position": "relative",
+                        "zIndex": "1"
                     }
                 },
                 # Logo Section
@@ -242,8 +261,10 @@ def UserInputApp():
                             "src": "https://blog.logomyway.com/wp-content/uploads/2022/11/geico-logo.jpg",
                             "alt": "GEICO Logo",
                             "style": {
-                                "height": "40px",
-                                "marginRight": "2rem"
+                                "height": "50px",
+                                "marginRight": "2rem",
+                                "borderRadius": "8px",
+                                "boxShadow": "0 2px 8px rgba(0, 0, 0, 0.2)"
                             }
                         }
                     )
@@ -259,30 +280,32 @@ def UserInputApp():
                     html.h1(
                         {
                             "style": {
-                                "fontSize": "2.5rem",
-                                "fontWeight": "600",
+                                "fontSize": "3rem",
+                                "fontWeight": "700",
                                 "margin": "0",
-                                "letterSpacing": "0.05em"
+                                "letterSpacing": "0.05em",
+                                "textShadow": "0 2px 4px rgba(0, 0, 0, 0.3)"
                             }
                         },
-                        "DORA"
+                        "🔍 DORA"
                     ),
                     html.p(
                         {
                             "style": {
-                                "fontSize": "1rem",
+                                "fontSize": "1.1rem",
                                 "margin": "0.5rem 0 0 0",
-                                "opacity": "0.9"
+                                "opacity": "0.95",
+                                "fontWeight": "300"
                             }
                         },
-                        "DORA: DOI Objection Research Assistant"
+                        "📊 DOI Objection Research Assistant"
                     )
                 ),
                 # Spacer for logo balance
                 html.div(
                     {
                         "style": {
-                            "width": "40px",
+                            "width": "50px",
                             "marginLeft": "2rem"
                         }
                     }
@@ -313,15 +336,18 @@ def UserInputApp():
                 html.h2(
                     {
                         "style": {
-                            "fontSize": "1.5rem",
-                            "fontWeight": "600",
-                            "color": "#2d3748",
+                            "fontSize": "1.8rem",
+                            "fontWeight": "700",
+                            "color": "#1a202c",
                             "margin": "0 0 1.5rem 0",
-                            "borderBottom": "2px solid #2563eb",
-                            "paddingBottom": "0.5rem"
+                            "borderBottom": "3px solid #667eea",
+                            "paddingBottom": "0.5rem",
+                            "display": "flex",
+                            "alignItems": "center",
+                            "gap": "0.5rem"
                         }
                     },
-                    "Filters"
+                    "🎛️ Filters"
                 ),
                 # Filter Grid
                 html.div(
@@ -340,31 +366,36 @@ def UserInputApp():
                                 "style": {
                                     "display": "block",
                                     "fontSize": "0.9rem",
-                                    "fontWeight": "500",
-                                    "color": "#4a5568",
+                                    "fontWeight": "600",
+                                    "color": "#2d3748",
                                     "marginBottom": "0.5rem"
                                 }
                             },
-                            "Filter by State"
+                            "🗺️ Filter by State"
                         ),
                         html.button(
                             {
                                 "onClick": handle_dropdown_toggle,
                                 "style": {
                                     "width": "100%",
-                                    "padding": "12px 16px",
-                                    "backgroundColor": "#2563eb",
+                                    "padding": "14px 16px",
+                                    "background": "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
                                     "color": "white",
                                     "border": "none",
-                                    "borderRadius": "8px",
+                                    "borderRadius": "10px",
                                     "cursor": "pointer",
                                     "fontSize": "1rem",
-                                    "fontWeight": "500",
-                                    "transition": "all 0.2s ease",
-                                    "boxShadow": "0 2px 4px rgba(37, 99, 235, 0.3)"
+                                    "fontWeight": "600",
+                                    "transition": "all 0.3s ease",
+                                    "boxShadow": "0 4px 12px rgba(102, 126, 234, 0.4)",
+                                    "transform": "translateY(0)",
+                                    "hover": {
+                                        "transform": "translateY(-2px)",
+                                        "boxShadow": "0 6px 16px rgba(102, 126, 234, 0.5)"
+                                    }
                                 }
                             },
-                            f"States ({len(selected_states)} selected) {'▼' if not show_dropdown else '▲'}",
+                            f"🗺️ States ({len(selected_states)} selected) {'▼' if not show_dropdown else '▲'}",
                         ),
                         # State Dropdown
                         html.div(
@@ -428,31 +459,36 @@ def UserInputApp():
                                 "style": {
                                     "display": "block",
                                     "fontSize": "0.9rem",
-                                    "fontWeight": "500",
-                                    "color": "#4a5568",
+                                    "fontWeight": "600",
+                                    "color": "#2d3748",
                                     "marginBottom": "0.5rem"
                                 }
                             },
-                            "Filter by Line of Business"
+                            "🏢 Filter by Line of Business"
                         ),
                         html.button(
                             {
                                 "onClick": handle_lob_dropdown_toggle,
                                 "style": {
                                     "width": "100%",
-                                    "padding": "12px 16px",
-                                    "backgroundColor": "#6b7280",
+                                    "padding": "14px 16px",
+                                    "background": "linear-gradient(135deg, #f093fb 0%, #f5576c 100%)",
                                     "color": "white",
                                     "border": "none",
-                                    "borderRadius": "8px",
+                                    "borderRadius": "10px",
                                     "cursor": "pointer",
                                     "fontSize": "1rem",
-                                    "fontWeight": "500",
-                                    "transition": "all 0.2s ease",
-                                    "boxShadow": "0 2px 4px rgba(107, 114, 128, 0.3)"
+                                    "fontWeight": "600",
+                                    "transition": "all 0.3s ease",
+                                    "boxShadow": "0 4px 12px rgba(240, 147, 251, 0.4)",
+                                    "transform": "translateY(0)",
+                                    "hover": {
+                                        "transform": "translateY(-2px)",
+                                        "boxShadow": "0 6px 16px rgba(240, 147, 251, 0.5)"
+                                    }
                                 }
                             },
-                            f"LOB ({len(selected_lobs)} selected) {'▼' if not show_lob_dropdown else '▲'}",
+                            f"🏢 LOB ({len(selected_lobs)} selected) {'▼' if not show_lob_dropdown else '▲'}",
                         ),
                         # LOB Dropdown
                         html.div(
@@ -516,31 +552,36 @@ def UserInputApp():
                                 "style": {
                                     "display": "block",
                                     "fontSize": "0.9rem",
-                                    "fontWeight": "500",
-                                    "color": "#4a5568",
+                                    "fontWeight": "600",
+                                    "color": "#2d3748",
                                     "marginBottom": "0.5rem"
                                 }
                             },
-                            "Filter by Filing Type"
+                            "📄 Filter by Filing Type"
                         ),
                         html.button(
                             {
                                 "onClick": handle_filing_type_dropdown_toggle,
                                 "style": {
                                     "width": "100%",
-                                    "padding": "12px 16px",
-                                    "backgroundColor": "#374151",
+                                    "padding": "14px 16px",
+                                    "background": "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)",
                                     "color": "white",
                                     "border": "none",
-                                    "borderRadius": "8px",
+                                    "borderRadius": "10px",
                                     "cursor": "pointer",
                                     "fontSize": "1rem",
-                                    "fontWeight": "500",
-                                    "transition": "all 0.2s ease",
-                                    "boxShadow": "0 2px 4px rgba(55, 65, 81, 0.3)"
+                                    "fontWeight": "600",
+                                    "transition": "all 0.3s ease",
+                                    "boxShadow": "0 4px 12px rgba(79, 172, 254, 0.4)",
+                                    "transform": "translateY(0)",
+                                    "hover": {
+                                        "transform": "translateY(-2px)",
+                                        "boxShadow": "0 6px 16px rgba(79, 172, 254, 0.5)"
+                                    }
                                 }
                             },
-                            f"Filing Type ({len(selected_filing_types)} selected) {'▼' if not show_filing_type_dropdown else '▲'}",
+                            f"📄 Filing Type ({len(selected_filing_types)} selected) {'▼' if not show_filing_type_dropdown else '▲'}",
                         ),
                         # Filing Type Dropdown
                         html.div(
@@ -604,31 +645,36 @@ def UserInputApp():
                                 "style": {
                                     "display": "block",
                                     "fontSize": "0.9rem",
-                                    "fontWeight": "500",
-                                    "color": "#4a5568",
+                                    "fontWeight": "600",
+                                    "color": "#2d3748",
                                     "marginBottom": "0.5rem"
                                 }
                             },
-                            "Filter by Topic"
+                            "📝 Filter by Topic"
                         ),
                         html.button(
                             {
                                 "onClick": handle_topics_dropdown_toggle,
                                 "style": {
                                     "width": "100%",
-                                    "padding": "12px 16px",
-                                    "backgroundColor": "#374151",
+                                    "padding": "14px 16px",
+                                    "background": "linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)",
                                     "color": "white",
                                     "border": "none",
-                                    "borderRadius": "8px",
+                                    "borderRadius": "10px",
                                     "cursor": "pointer",
                                     "fontSize": "1rem",
-                                    "fontWeight": "500",
-                                    "transition": "all 0.2s ease",
-                                    "boxShadow": "0 2px 4px rgba(55, 65, 81, 0.3)"
+                                    "fontWeight": "600",
+                                    "transition": "all 0.3s ease",
+                                    "boxShadow": "0 4px 12px rgba(168, 237, 234, 0.4)",
+                                    "transform": "translateY(0)",
+                                    "hover": {
+                                        "transform": "translateY(-2px)",
+                                        "boxShadow": "0 6px 16px rgba(168, 237, 234, 0.5)"
+                                    }
                                 }
                             },
-                            f"Topic ({len(selected_topics)} selected) {'▼' if not show_topics_dropdown else '▲'}",
+                            f"📝 Topic ({len(selected_topics)} selected) {'▼' if not show_topics_dropdown else '▲'}",
                         ),
                         # Topic Dropdown
                         html.div(
@@ -692,31 +738,36 @@ def UserInputApp():
                                 "style": {
                                     "display": "block",
                                     "fontSize": "0.9rem",
-                                    "fontWeight": "500",
-                                    "color": "#4a5568",
+                                    "fontWeight": "600",
+                                    "color": "#2d3748",
                                     "marginBottom": "0.5rem"
                                 }
                             },
-                            "Filter by Topic"
+                            "🏢 Filter by Carrier"
                         ),
                         html.button(
                             {
                                 "onClick": handle_carriers_dropdown_toggle,
                                 "style": {
                                     "width": "100%",
-                                    "padding": "12px 16px",
-                                    "backgroundColor": "#374151",
+                                    "padding": "14px 16px",
+                                    "background": "linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%)",
                                     "color": "white",
                                     "border": "none",
-                                    "borderRadius": "8px",
+                                    "borderRadius": "10px",
                                     "cursor": "pointer",
                                     "fontSize": "1rem",
-                                    "fontWeight": "500",
-                                    "transition": "all 0.2s ease",
-                                    "boxShadow": "0 2px 4px rgba(55, 65, 81, 0.3)"
+                                    "fontWeight": "600",
+                                    "transition": "all 0.3s ease",
+                                    "boxShadow": "0 4px 12px rgba(255, 236, 210, 0.4)",
+                                    "transform": "translateY(0)",
+                                    "hover": {
+                                        "transform": "translateY(-2px)",
+                                        "boxShadow": "0 6px 16px rgba(255, 236, 210, 0.5)"
+                                    }
                                 }
                             },
-                            f"Carrier ({len(selected_carriers)} selected) {'▼' if not show_carriers_dropdown else '▲'}",
+                            f"🏢 Carrier ({len(selected_carriers)} selected) {'▼' if not show_carriers_dropdown else '▲'}",
                         ),
                         # Carrier Dropdown
                         html.div(
@@ -758,7 +809,7 @@ def UserInputApp():
                                             {
                                                 "type": "checkbox",
                                                 "checked": carrier in selected_carriers,
-                                                "onChange": handle_topics_toggle(carrier),
+                                                "onChange": handle_carriers_toggle(carrier),
                                                 "style": {
                                                     "marginRight": "8px",
                                                     "cursor": "pointer"
@@ -780,31 +831,36 @@ def UserInputApp():
                                 "style": {
                                     "display": "block",
                                     "fontSize": "0.9rem",
-                                    "fontWeight": "500",
-                                    "color": "#4a5568",
+                                    "fontWeight": "600",
+                                    "color": "#2d3748",
                                     "marginBottom": "0.5rem"
                                 }
                             },
-                            "Filter by Response Type"
+                            "💬 Filter by Response Type"
                         ),
                         html.button(
                             {
                                 "onClick": handle_response_type_dropdown_toggle,
                                 "style": {
                                     "width": "100%",
-                                    "padding": "12px 16px",
-                                    "backgroundColor": "#4b5563",
+                                    "padding": "14px 16px",
+                                    "background": "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
                                     "color": "white",
                                     "border": "none",
-                                    "borderRadius": "8px",
+                                    "borderRadius": "10px",
                                     "cursor": "pointer",
                                     "fontSize": "1rem",
-                                    "fontWeight": "500",
-                                    "transition": "all 0.2s ease",
-                                    "boxShadow": "0 2px 4px rgba(75, 85, 99, 0.3)"
+                                    "fontWeight": "600",
+                                    "transition": "all 0.3s ease",
+                                    "boxShadow": "0 4px 12px rgba(102, 126, 234, 0.4)",
+                                    "transform": "translateY(0)",
+                                    "hover": {
+                                        "transform": "translateY(-2px)",
+                                        "boxShadow": "0 6px 16px rgba(102, 126, 234, 0.5)"
+                                    }
                                 }
                             },
-                            f"Response Type ({len(selected_response_types)} selected) {'▼' if not show_response_type_dropdown else '▲'}",
+                            f"💬 Response Type ({len(selected_response_types)} selected) {'▼' if not show_response_type_dropdown else '▲'}",
                         ),
                         # Response Type Dropdown
                         html.div(
@@ -877,32 +933,42 @@ def UserInputApp():
                 html.h2(
                     {
                         "style": {
-                            "fontSize": "1.5rem",
-                            "fontWeight": "600",
-                            "color": "#2d3748",
+                            "fontSize": "1.8rem",
+                            "fontWeight": "700",
+                            "color": "#1a202c",
                             "margin": "0 0 1.5rem 0",
-                            "borderBottom": "2px solid #2563eb",
-                            "paddingBottom": "0.5rem"
+                            "borderBottom": "3px solid #667eea",
+                            "paddingBottom": "0.5rem",
+                            "display": "flex",
+                            "alignItems": "center",
+                            "gap": "0.5rem"
                         }
                     },
-                    "Query Input"
+                    "✍️ Query Input"
                 ),
                 html.textarea(
                     {
                         "value": user_input,
                         "onChange": handle_input_change,
-                        "placeholder": "Enter your query or analysis request here...",
+                        "placeholder": "💡 Enter your query or analysis request here...",
                         "style": {
                             "width": "100%",
-                            "height": "120px",
-                            "padding": "16px",
-                            "fontSize": "1rem",
-                            "border": "2px solid #e2e8f0",
-                            "borderRadius": "8px",
+                            "height": "140px",
+                            "padding": "20px",
+                            "fontSize": "1.1rem",
+                            "border": "3px solid #e2e8f0",
+                            "borderRadius": "12px",
                             "resize": "vertical",
                             "fontFamily": "inherit",
-                            "transition": "border-color 0.2s ease",
-                            "boxSizing": "border-box"
+                            "transition": "all 0.3s ease",
+                            "boxSizing": "border-box",
+                            "background": "linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%)",
+                            "boxShadow": "0 4px 12px rgba(0, 0, 0, 0.05)",
+                            "focus": {
+                                "borderColor": "#667eea",
+                                "boxShadow": "0 6px 20px rgba(102, 126, 234, 0.2)",
+                                "outline": "none"
+                            }
                         }
                     }
                 ),
@@ -922,15 +988,18 @@ def UserInputApp():
                 html.h2(
                     {
                         "style": {
-                            "fontSize": "1.5rem",
-                            "fontWeight": "600",
-                            "color": "#2d3748",
+                            "fontSize": "1.8rem",
+                            "fontWeight": "700",
+                            "color": "#1a202c",
                             "margin": "0 0 1.5rem 0",
-                            "borderBottom": "2px solid #2563eb",
-                            "paddingBottom": "0.5rem"
+                            "borderBottom": "3px solid #667eea",
+                            "paddingBottom": "0.5rem",
+                            "display": "flex",
+                            "alignItems": "center",
+                            "gap": "0.5rem"
                         }
                     },
-                    "Current Selection"
+                    "📊 Current Selection"
                 ),
                 html.div(
                     {
@@ -955,11 +1024,11 @@ def UserInputApp():
                             {
                                 "style": {
                                     "margin": "0 0 0.5rem 0",
-                                    "fontSize": "1.1rem",
-                                    "fontWeight": "600"
+                                    "fontSize": "1.2rem",
+                                    "fontWeight": "700"
                                 }
                             },
-                            "Selected States"
+                            "🗺️ Selected States"
                         ),
                         html.p(
                             {
@@ -987,11 +1056,11 @@ def UserInputApp():
                             {
                                 "style": {
                                     "margin": "0 0 0.5rem 0",
-                                    "fontSize": "1.1rem",
-                                    "fontWeight": "600"
+                                    "fontSize": "1.2rem",
+                                    "fontWeight": "700"
                                 }
                             },
-                            "Selected LOBs"
+                            "🏢 Selected LOBs"
                         ),
                         html.p(
                             {
@@ -1019,11 +1088,11 @@ def UserInputApp():
                             {
                                 "style": {
                                     "margin": "0 0 0.5rem 0",
-                                    "fontSize": "1.1rem",
-                                    "fontWeight": "600"
+                                    "fontSize": "1.2rem",
+                                    "fontWeight": "700"
                                 }
                             },
-                            "Selected Filing Types"
+                            "📄 Selected Filing Types"
                         ),
                         html.p(
                             {
@@ -1051,11 +1120,11 @@ def UserInputApp():
                             {
                                 "style": {
                                     "margin": "0 0 0.5rem 0",
-                                    "fontSize": "1.1rem",
-                                    "fontWeight": "600"
+                                    "fontSize": "1.2rem",
+                                    "fontWeight": "700"
                                 }
                             },
-                            "Selected Response Types"
+                            "💬 Selected Response Types"
                         ),
                         html.p(
                             {
@@ -1083,11 +1152,11 @@ def UserInputApp():
                             {
                                 "style": {
                                     "margin": "0 0 0.5rem 0",
-                                    "fontSize": "1.1rem",
-                                    "fontWeight": "600"
+                                    "fontSize": "1.2rem",
+                                    "fontWeight": "700"
                                 }
                             },
-                            "Query Status"
+                            "💡 Query Status"
                         ),
                         html.p(
                             {
@@ -1117,15 +1186,18 @@ def UserInputApp():
                 html.h2(
                     {
                         "style": {
-                            "fontSize": "1.5rem",
-                            "fontWeight": "600",
-                            "color": "#2d3748",
+                            "fontSize": "1.8rem",
+                            "fontWeight": "700",
+                            "color": "#1a202c",
                             "margin": "0 0 1.5rem 0",
-                            "borderBottom": "2px solid #2563eb",
-                            "paddingBottom": "0.5rem"
+                            "borderBottom": "3px solid #667eea",
+                            "paddingBottom": "0.5rem",
+                            "display": "flex",
+                            "alignItems": "center",
+                            "gap": "0.5rem"
                         }
                     },
-                    "Data Analytics"
+                    "📈 Data Analytics"
                 ),
                 html.div(
                     {
@@ -1162,11 +1234,12 @@ def UserInputApp():
                             {
                                 "style": {
                                     "margin": "0",
-                                    "fontSize": "0.9rem",
-                                    "opacity": "0.9"
+                                    "fontSize": "1rem",
+                                    "opacity": "0.95",
+                                    "fontWeight": "600"
                                 }
                             },
-                            "Total Records"
+                            "📊 Total Records"
                         ),
                     ),
                     # Unique States
@@ -1195,11 +1268,12 @@ def UserInputApp():
                             {
                                 "style": {
                                     "margin": "0",
-                                    "fontSize": "0.9rem",
-                                    "opacity": "0.9"
+                                    "fontSize": "1rem",
+                                    "opacity": "0.95",
+                                    "fontWeight": "600"
                                 }
                             },
-                            "Unique States"
+                            "🗺️ Unique States"
                         ),
                     ),
                     # Unique LOBs
@@ -1228,11 +1302,12 @@ def UserInputApp():
                             {
                                 "style": {
                                     "margin": "0",
-                                    "fontSize": "0.9rem",
-                                    "opacity": "0.9"
+                                    "fontSize": "1rem",
+                                    "opacity": "0.95",
+                                    "fontWeight": "600"
                                 }
                             },
-                            "Unique LOBs"
+                            "🏢 Unique LOBs"
                         ),
                     ),
                     # Unique Filing Types
@@ -1261,11 +1336,12 @@ def UserInputApp():
                             {
                                 "style": {
                                     "margin": "0",
-                                    "fontSize": "0.9rem",
-                                    "opacity": "0.9"
+                                    "fontSize": "1rem",
+                                    "opacity": "0.95",
+                                    "fontWeight": "600"
                                 }
                             },
-                            "Unique Filing Types"
+                            "📄 Unique Filing Types"
                         ),
                     ),
                     # Unique Response Types
@@ -1294,11 +1370,12 @@ def UserInputApp():
                             {
                                 "style": {
                                     "margin": "0",
-                                    "fontSize": "0.9rem",
-                                    "opacity": "0.9"
+                                    "fontSize": "1rem",
+                                    "opacity": "0.95",
+                                    "fontWeight": "600"
                                 }
                             },
-                            "Unique Response Types"
+                            "💬 Unique Response Types"
                         ),
                     ),
                 ),
@@ -1318,41 +1395,46 @@ def UserInputApp():
                 html.h2(
                     {
                         "style": {
-                            "fontSize": "1.5rem",
-                            "fontWeight": "600",
-                            "color": "#2d3748",
+                            "fontSize": "1.8rem",
+                            "fontWeight": "700",
+                            "color": "#1a202c",
                             "margin": "0 0 1.5rem 0",
-                            "borderBottom": "2px solid #2563eb",
-                            "paddingBottom": "0.5rem"
+                            "borderBottom": "3px solid #667eea",
+                            "paddingBottom": "0.5rem",
+                            "display": "flex",
+                            "alignItems": "center",
+                            "gap": "0.5rem"
                         }
                     },
-                    "Sample Data Preview"
+                    "📋 Sample Data Preview"
                 ),
-                html.div(
-                    {
-                        "style": {
-                            "border": "1px solid #e2e8f0",
-                            "borderRadius": "8px",
-                            "padding": "1.5rem",
-                            "backgroundColor": "#f8fafc",
-                            "maxHeight": "400px",
-                            "overflowY": "auto",
-                            "overflowX": "auto"
-                        }
-                    },
-                    html.pre(
+                                    html.div(
                         {
                             "style": {
-                                "whiteSpace": "pre-wrap",
-                                "fontSize": "0.85rem",
-                                "margin": "0",
-                                "fontFamily": "'Courier New', monospace",
-                                "color": "#2d3748",
-                                "lineHeight": "1.5"
+                                "border": "2px solid #e2e8f0",
+                                "borderRadius": "12px",
+                                "padding": "2rem",
+                                "background": "linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%)",
+                                "maxHeight": "500px",
+                                "overflowY": "auto",
+                                "overflowX": "auto",
+                                "boxShadow": "0 4px 12px rgba(0, 0, 0, 0.05)"
                             }
                         },
-                        str(filtered_data.head(10).to_string()) if len(filtered_data) > 0 else "No data matches the current filters. Please adjust your filter selection."
-                    ),
+                                            html.pre(
+                            {
+                                "style": {
+                                    "whiteSpace": "pre-wrap",
+                                    "fontSize": "0.9rem",
+                                    "margin": "0",
+                                    "fontFamily": "'Courier New', monospace",
+                                    "color": "#1a202c",
+                                    "lineHeight": "1.6",
+                                    "fontWeight": "500"
+                                }
+                            },
+                            str(filtered_data.head(10).to_string()) if len(filtered_data) > 0 else "❌ No data matches the current filters. Please adjust your filter selection."
+                        ),
                 ),
             ),
         ),
