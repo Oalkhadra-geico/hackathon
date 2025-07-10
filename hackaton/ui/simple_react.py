@@ -1,6 +1,10 @@
+import pandas as pd
 import reactpy
 from reactpy import html, hooks
 
+df = pd.read_csv('../ResponseData.csv')
+
+print(df.head())
 # List of US state abbreviations (including DC)
 STATES = [
     "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "DC", "FL", "GA", 
