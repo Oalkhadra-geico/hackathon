@@ -67,7 +67,7 @@ def UserInputApp():
     show_response_type_dropdown, set_show_response_type_dropdown = hooks.use_state(False)
     
     # State for selected Topics
-    selected_topics, set_selected_topics = hooks.use_state(set())
+    selected_topics, set_selected_topics = hooks.use_state(set(("MTF", "Rate Capping", "Tariffs")))
     # State for Topic dropdown visibility
     show_topics_dropdown, set_show_topics_dropdown = hooks.use_state(False)
 
@@ -98,7 +98,15 @@ def UserInputApp():
         # Filter by Response Types if any are selected
         if selected_response_types:
             filtered_df = filtered_df[filtered_df['RespType'].isin(selected_response_types)]
+            
+        # Filter by Topics if any are selected
+        if selected_topics:
+            filtered_df = filtered_df[filtered_df['Topic'].isin(selected_topics)]
         
+        # Filter by Carrier if any are selected
+        if selected_carriers:
+            filtered_df = filtered_df[filtered_df['Carrier'].isin(selected_carriers)]
+
         set_filtered_data(filtered_df)
 
     def handle_input_change(event):
@@ -201,7 +209,7 @@ def UserInputApp():
         {
             "style": {
                 "fontFamily": "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
-                "backgroundColor": "#f8fafc",
+                "backgroundColor": "#a185a8",
                 "minHeight": "100vh",
                 "padding": "0",
                 "margin": "0"
@@ -211,7 +219,7 @@ def UserInputApp():
         html.div(
             {
                 "style": {
-                    "background": "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+                    "backgroundColor": "#cf9ed1",
                     "color": "white",
                     "padding": "2rem 0",
                     "marginBottom": "2rem",
@@ -258,11 +266,11 @@ def UserInputApp():
                     },
                     html.img(
                         {
-                            "src": "https://blog.logomyway.com/wp-content/uploads/2022/11/geico-logo.jpg",
+                            "src": "https://graphicdesignergeeks.com/wp-content/uploads/2024/05/Geicos-Gecko-Branding-with-Mascots-1-1080x628.jpg",
                             "alt": "GEICO Logo",
                             "style": {
-                                "height": "50px",
-                                "marginRight": "2rem",
+                                "height": "120px",
+                                "marginRight": "1rem",
                                 "borderRadius": "8px",
                                 "boxShadow": "0 2px 8px rgba(0, 0, 0, 0.2)"
                             }
@@ -280,6 +288,7 @@ def UserInputApp():
                     html.h1(
                         {
                             "style": {
+                                "color": "#000000",
                                 "fontSize": "3rem",
                                 "fontWeight": "700",
                                 "margin": "0",
@@ -292,10 +301,11 @@ def UserInputApp():
                     html.p(
                         {
                             "style": {
-                                "fontSize": "1.1rem",
+                                "color": "#000000",
+                                "fontSize": "1.3rem",
                                 "margin": "0.5rem 0 0 0",
                                 "opacity": "0.95",
-                                "fontWeight": "300"
+                                "fontWeight": "200"
                             }
                         },
                         "📊 DOI Objection Research Assistant"
@@ -306,7 +316,7 @@ def UserInputApp():
                     {
                         "style": {
                             "width": "50px",
-                            "marginLeft": "2rem"
+                            "marginLeft": "10rem"
                         }
                     }
                 )
@@ -325,12 +335,11 @@ def UserInputApp():
             html.div(
                 {
                     "style": {
-                        "background": "white",
+                        "background": "#c5c5d3",
                         "borderRadius": "12px",
                         "padding": "2rem",
                         "marginBottom": "2rem",
-                        "boxShadow": "0 4px 6px rgba(0, 0, 0, 0.05)",
-                        "border": "1px solid #e2e8f0"
+                        "boxShadow": "0 4px 6px rgba(0, 0, 0, 0.05)"
                     }
                 },
                 html.h2(
@@ -367,11 +376,11 @@ def UserInputApp():
                                     "display": "block",
                                     "fontSize": "0.9rem",
                                     "fontWeight": "600",
-                                    "color": "#2d3748",
+                                    "color": "#3e2d48",
                                     "marginBottom": "0.5rem"
                                 }
                             },
-                            "🗺️ Filter by State"
+                            "📍 State"
                         ),
                         html.button(
                             {
@@ -395,7 +404,7 @@ def UserInputApp():
                                     }
                                 }
                             },
-                            f"🗺️ States ({len(selected_states)} selected) {'▼' if not show_dropdown else '▲'}",
+                            f"📍 States ({len(selected_states)} selected) {'▼' if not show_dropdown else '▲'}",
                         ),
                         # State Dropdown
                         html.div(
@@ -464,7 +473,7 @@ def UserInputApp():
                                     "marginBottom": "0.5rem"
                                 }
                             },
-                            "🏢 Filter by Line of Business"
+                            "🏢 Line of Business"
                         ),
                         html.button(
                             {
@@ -472,7 +481,7 @@ def UserInputApp():
                                 "style": {
                                     "width": "100%",
                                     "padding": "14px 16px",
-                                    "background": "linear-gradient(135deg, #f093fb 0%, #f5576c 100%)",
+                                    "background": "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
                                     "color": "white",
                                     "border": "none",
                                     "borderRadius": "10px",
@@ -557,7 +566,7 @@ def UserInputApp():
                                     "marginBottom": "0.5rem"
                                 }
                             },
-                            "📄 Filter by Filing Type"
+                            "📄 Filing Type"
                         ),
                         html.button(
                             {
@@ -565,7 +574,7 @@ def UserInputApp():
                                 "style": {
                                     "width": "100%",
                                     "padding": "14px 16px",
-                                    "background": "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)",
+                                    "background": "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
                                     "color": "white",
                                     "border": "none",
                                     "borderRadius": "10px",
@@ -650,7 +659,7 @@ def UserInputApp():
                                     "marginBottom": "0.5rem"
                                 }
                             },
-                            "📝 Filter by Topic"
+                            "📝 Topic"
                         ),
                         html.button(
                             {
@@ -658,7 +667,7 @@ def UserInputApp():
                                 "style": {
                                     "width": "100%",
                                     "padding": "14px 16px",
-                                    "background": "linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)",
+                                    "background": "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
                                     "color": "white",
                                     "border": "none",
                                     "borderRadius": "10px",
@@ -743,7 +752,7 @@ def UserInputApp():
                                     "marginBottom": "0.5rem"
                                 }
                             },
-                            "🏢 Filter by Carrier"
+                            "📦 Carrier"
                         ),
                         html.button(
                             {
@@ -751,7 +760,7 @@ def UserInputApp():
                                 "style": {
                                     "width": "100%",
                                     "padding": "14px 16px",
-                                    "background": "linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%)",
+                                    "background": "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
                                     "color": "white",
                                     "border": "none",
                                     "borderRadius": "10px",
@@ -767,7 +776,7 @@ def UserInputApp():
                                     }
                                 }
                             },
-                            f"🏢 Carrier ({len(selected_carriers)} selected) {'▼' if not show_carriers_dropdown else '▲'}",
+                            f"📦 Carrier ({len(selected_carriers)} selected) {'▼' if not show_carriers_dropdown else '▲'}",
                         ),
                         # Carrier Dropdown
                         html.div(
@@ -836,7 +845,7 @@ def UserInputApp():
                                     "marginBottom": "0.5rem"
                                 }
                             },
-                            "💬 Filter by Response Type"
+                            "💬 Response Type"
                         ),
                         html.button(
                             {
@@ -918,16 +927,520 @@ def UserInputApp():
                     ),
                 ),
             ),
+            # Status Section
+            html.div(
+                {
+                    "style": {
+                        "background": "#c5c5d3",
+                        "borderRadius": "12px",
+                        "padding": "2rem",
+                        "marginBottom": "2rem",
+                        "boxShadow": "0 4px 6px rgba(0, 0, 0, 0.05)"
+                    }
+                },
+                html.h2(
+                    {
+                        "style": {
+                            "fontSize": "1.8rem",
+                            "fontWeight": "700",
+                            "color": "#1a202c",
+                            "margin": "0 0 1.5rem 0",
+                            "borderBottom": "3px solid #667eea",
+                            "paddingBottom": "0.5rem",
+                            "display": "flex",
+                            "alignItems": "center",
+                            "gap": "0.5rem"
+                        }
+                    },
+                    "📊 Current Selection"
+                ),
+                html.div(
+                    {
+                        "style": {
+                            "display": "grid",
+                            "gridTemplateColumns": "repeat(auto-fit, minmax(250px, 1fr))",
+                            "gap": "1rem"
+                        }
+                    },
+                    # Selected States Card
+                    html.div(
+                        {
+                            "style": {
+                                "background": "#0048e2",
+                                "color": "white",
+                                "padding": "1.5rem",
+                                "borderRadius": "8px",
+                                "boxShadow": "0 2px 4px rgba(37, 99, 235, 0.3)"
+                            }
+                        },
+                        html.h3(
+                            {
+                                "style": {
+                                    "margin": "0 0 0.5rem 0",
+                                    "fontSize": "1.2rem",
+                                    "fontWeight": "700"
+                                }
+                            },
+                            "📍 Selected States"
+                        ),
+                        html.p(
+                            {
+                                "style": {
+                                    "margin": "0",
+                                    "fontSize": "0.9rem",
+                                    "opacity": "0.9"
+                                }
+                            },
+                            ', '.join(sorted(selected_states)) if selected_states else 'No states selected'
+                        ),
+                    ),
+                    # Selected LOBs Card
+                    html.div(
+                        {
+                            "style": {
+                                "background": "#00c3ff",
+                                "color": "white",
+                                "padding": "1.5rem",
+                                "borderRadius": "8px",
+                                "boxShadow": "0 2px 4px rgba(107, 114, 128, 0.3)"
+                            }
+                        },
+                        html.h3(
+                            {
+                                "style": {
+                                    "margin": "0 0 0.5rem 0",
+                                    "fontSize": "1.2rem",
+                                    "fontWeight": "700"
+                                }
+                            },
+                            "🏢 Selected LOBs"
+                        ),
+                        html.p(
+                            {
+                                "style": {
+                                    "margin": "0",
+                                    "fontSize": "0.9rem",
+                                    "opacity": "0.9"
+                                }
+                            },
+                            ', '.join(sorted(selected_lobs)) if selected_lobs else 'No LOBs selected'
+                        ),
+                    ),
+                    # Selected Filing Types Card
+                    html.div(
+                        {
+                            "style": {
+                                "background": "#00FF62",
+                                "color": "white",
+                                "padding": "1.5rem",
+                                "borderRadius": "8px",
+                                "boxShadow": "0 2px 4px rgba(55, 65, 81, 0.3)"
+                            }
+                        },
+                        html.h3(
+                            {
+                                "style": {
+                                    "margin": "0 0 0.5rem 0",
+                                    "fontSize": "1.2rem",
+                                    "fontWeight": "700"
+                                }
+                            },
+                            "📄 Selected Filing Types"
+                        ),
+                        html.p(
+                            {
+                                "style": {
+                                    "margin": "0",
+                                    "fontSize": "0.9rem",
+                                    "opacity": "0.9"
+                                }
+                            },
+                            ', '.join(sorted(selected_filing_types)) if selected_filing_types else 'No filing types selected'
+                        ),
+                    ),
+                    # Selected Topics Card
+                    html.div(
+                        {
+                            "style": {
+                                "background": "#BBFF00",
+                                "color": "white",
+                                "padding": "1.5rem",
+                                "borderRadius": "8px",
+                                "boxShadow": "0 2px 4px rgba(55, 65, 81, 0.3)"
+                            }
+                        },
+                        html.h3(
+                            {
+                                "style": {
+                                    "margin": "0 0 0.5rem 0",
+                                    "fontSize": "1.2rem",
+                                    "fontWeight": "700"
+                                }
+                            },
+                            "📝 Selected Topics"
+                        ),
+                        html.p(
+                            {
+                                "style": {
+                                    "margin": "0",
+                                    "fontSize": "0.9rem",
+                                    "opacity": "0.9"
+                                }
+                            },
+                            ', '.join(sorted(selected_topics)) if selected_topics else 'No topics selected'
+                        ),
+                    ),
+                    # Selected Carriers Card
+                    html.div(
+                        {
+                            "style": {
+                                "background": "#FF0037",
+                                "color": "white",
+                                "padding": "1.5rem",
+                                "borderRadius": "8px",
+                                "boxShadow": "0 2px 4px rgba(55, 65, 81, 0.3)"
+                            }
+                        },
+                        html.h3(
+                            {
+                                "style": {
+                                    "margin": "0 0 0.5rem 0",
+                                    "fontSize": "1.2rem",
+                                    "fontWeight": "700"
+                                }
+                            },
+                            "📦 Selected Carriers"
+                        ),
+                        html.p(
+                            {
+                                "style": {
+                                    "margin": "0",
+                                    "fontSize": "0.9rem",
+                                    "opacity": "0.9"
+                                }
+                            },
+                            ', '.join(sorted(selected_carriers)) if selected_carriers else 'No carriers selected'
+                        ),
+                    ),
+                    # Selected Response Types Card
+                    html.div(
+                        {
+                            "style": {
+                                "background": "#ff5100",
+                                "color": "white",
+                                "padding": "1.5rem",
+                                "borderRadius": "8px",
+                                "boxShadow": "0 2px 4px rgba(75, 85, 99, 0.3)"
+                            }
+                        },
+                        html.h3(
+                            {
+                                "style": {
+                                    "margin": "0 0 0.5rem 0",
+                                    "fontSize": "1.2rem",
+                                    "fontWeight": "700"
+                                }
+                            },
+                            "💬 Selected Response Types"
+                        ),
+                        html.p(
+                            {
+                                "style": {
+                                    "margin": "0",
+                                    "fontSize": "0.9rem",
+                                    "opacity": "0.9"
+                                }
+                            },
+                            ', '.join(sorted(selected_response_types)) if selected_response_types else 'No response types selected'
+                        ),
+                    )
+                ),
+            ),
+            # Data Summary Section
+            html.div(
+                {
+                    "style": {
+                        "background": "#c5c5d3",
+                        "borderRadius": "12px",
+                        "padding": "2rem",
+                        "marginBottom": "2rem",
+                        "boxShadow": "0 4px 6px rgba(0, 0, 0, 0.05)"
+                    }
+                },
+                html.h2(
+                    {
+                        "style": {
+                            "fontSize": "1.8rem",
+                            "fontWeight": "700",
+                            "color": "#1a202c",
+                            "margin": "0 0 1.5rem 0",
+                            "borderBottom": "3px solid #667eea",
+                            "paddingBottom": "0.5rem",
+                            "display": "flex",
+                            "alignItems": "center",
+                            "gap": "0.5rem"
+                        }
+                    },
+                    "📈 Data Analytics"
+                ),
+                html.div(
+                    {
+                        "style": {
+                            "display": "grid",
+                            "gridTemplateColumns": "repeat(auto-fit, minmax(200px, 1fr))",
+                            "gap": "1rem",
+                            "marginBottom": "2rem"
+                        }
+                    },
+                    # Unique States
+                    html.div(
+                        {
+                            "style": {
+                                "background": "#0048e2",
+                                "color": "white",
+                                "padding": "1.5rem",
+                                "borderRadius": "8px",
+                                "textAlign": "center",
+                                "boxShadow": "0 2px 4px rgba(107, 114, 128, 0.3)"
+                            }
+                        },
+                        html.h3(
+                            {
+                                "style": {
+                                    "margin": "0 0 0.5rem 0",
+                                    "fontSize": "2rem",
+                                    "fontWeight": "700"
+                                }
+                            },
+                            str(len(filtered_data['State'].unique()) if len(filtered_data) > 0 else 0)
+                        ),
+                        html.p(
+                            {
+                                "style": {
+                                    "margin": "0",
+                                    "fontSize": "1rem",
+                                    "opacity": "0.95",
+                                    "fontWeight": "600"
+                                }
+                            },
+                            "🗺️ Unique States"
+                        ),
+                    ),
+                    # Unique LOBs
+                    html.div(
+                        {
+                            "style": {
+                                "background": "#00c3ff",
+                                "color": "white",
+                                "padding": "1.5rem",
+                                "borderRadius": "8px",
+                                "textAlign": "center",
+                                "boxShadow": "0 2px 4px rgba(55, 65, 81, 0.3)"
+                            }
+                        },
+                        html.h3(
+                            {
+                                "style": {
+                                    "margin": "0 0 0.5rem 0",
+                                    "fontSize": "2rem",
+                                    "fontWeight": "700"
+                                }
+                            },
+                            str(len(filtered_data['LOB'].unique()) if len(filtered_data) > 0 else 0)
+                        ),
+                        html.p(
+                            {
+                                "style": {
+                                    "margin": "0",
+                                    "fontSize": "1rem",
+                                    "opacity": "0.95",
+                                    "fontWeight": "600"
+                                }
+                            },
+                            "🏢 Unique LOBs"
+                        ),
+                    ),
+                    # Unique Filing Types
+                    html.div(
+                        {
+                            "style": {
+                                "background": "#00FF62",
+                                "color": "white",
+                                "padding": "1.5rem",
+                                "borderRadius": "8px",
+                                "textAlign": "center",
+                                "boxShadow": "0 2px 4px rgba(75, 85, 99, 0.3)"
+                            }
+                        },
+                        html.h3(
+                            {
+                                "style": {
+                                    "margin": "0 0 0.5rem 0",
+                                    "fontSize": "2rem",
+                                    "fontWeight": "700"
+                                }
+                            },
+                            str(len(filtered_data['Filing_Type'].unique()) if len(filtered_data) > 0 else 0)
+                        ),
+                        html.p(
+                            {
+                                "style": {
+                                    "margin": "0",
+                                    "fontSize": "1rem",
+                                    "opacity": "0.95",
+                                    "fontWeight": "600"
+                                }
+                            },
+                            "📄 Unique Filing Types"
+                        ),
+                    ),
+                    # Unique Filing Types
+                    html.div(
+                        {
+                            "style": {
+                                "background": "#BBFF00",
+                                "color": "white",
+                                "padding": "1.5rem",
+                                "borderRadius": "8px",
+                                "textAlign": "center",
+                                "boxShadow": "0 2px 4px rgba(75, 85, 99, 0.3)"
+                            }
+                        },
+                        html.h3(
+                            {
+                                "style": {
+                                    "margin": "0 0 0.5rem 0",
+                                    "fontSize": "2rem",
+                                    "fontWeight": "700"
+                                }
+                            },
+                            str(len(filtered_data['Filing_Type'].unique()) if len(filtered_data) > 0 else 0)
+                        ),
+                        html.p(
+                            {
+                                "style": {
+                                    "margin": "0",
+                                    "fontSize": "1rem",
+                                    "opacity": "0.95",
+                                    "fontWeight": "600"
+                                }
+                            },
+                            "📝 Unique Topics"
+                        ),
+                    ),
+                    # Unique Filing Types
+                    html.div(
+                        {
+                            "style": {
+                                "background": "#FF0037",
+                                "color": "white",
+                                "padding": "1.5rem",
+                                "borderRadius": "8px",
+                                "textAlign": "center",
+                                "boxShadow": "0 2px 4px rgba(75, 85, 99, 0.3)"
+                            }
+                        },
+                        html.h3(
+                            {
+                                "style": {
+                                    "margin": "0 0 0.5rem 0",
+                                    "fontSize": "2rem",
+                                    "fontWeight": "700"
+                                }
+                            },
+                            str(len(filtered_data['Filing_Type'].unique()) if len(filtered_data) > 0 else 0)
+                        ),
+                        html.p(
+                            {
+                                "style": {
+                                    "margin": "0",
+                                    "fontSize": "1rem",
+                                    "opacity": "0.95",
+                                    "fontWeight": "600"
+                                }
+                            },
+                            "📦 Unique Carriers"
+                        ),
+                    ),
+                    # Unique Response Types
+                    html.div(
+                        {
+                            "style": {
+                                "background": "#ff5100",
+                                "color": "white",
+                                "padding": "1.5rem",
+                                "borderRadius": "8px",
+                                "textAlign": "center",
+                                "boxShadow": "0 2px 4px rgba(17, 24, 39, 0.3)"
+                            }
+                        },
+                        html.h3(
+                            {
+                                "style": {
+                                    "margin": "0 0 0.5rem 0",
+                                    "fontSize": "2rem",
+                                    "fontWeight": "700"
+                                }
+                            },
+                            str(len(filtered_data['RespType'].unique()) if len(filtered_data) > 0 else 0)
+                        ),
+                        html.p(
+                            {
+                                "style": {
+                                    "margin": "0",
+                                    "fontSize": "1rem",
+                                    "opacity": "0.95",
+                                    "fontWeight": "600"
+                                }
+                            },
+                            "💬 Unique Response Types"
+                        ),
+                    ),
+                    # Total Records
+                    html.div(
+                        {
+                            "style": {
+                                "background": "#4b0000",
+                                "color": "white",
+                                "padding": "1.5rem",
+                                "borderRadius": "8px",
+                                "textAlign": "center",
+                                "boxShadow": "0 2px 4px rgba(37, 99, 235, 0.3)"
+                            }
+                        },
+                        html.h3(
+                            {
+                                "style": {
+                                    "margin": "0 0 0.5rem 0",
+                                    "fontSize": "2rem",
+                                    "fontWeight": "700"
+                                }
+                            },
+                            str(len(filtered_data))
+                        ),
+                        html.p(
+                            {
+                                "style": {
+                                    "margin": "0",
+                                    "fontSize": "1rem",
+                                    "opacity": "0.95",
+                                    "fontWeight": "600"
+                                }
+                            },
+                            "📊 Total Records"
+                        ),
+                    ),
+                ),
+            ),
             # Input Section
             html.div(
                 {
                     "style": {
-                        "background": "white",
+                        "background": "#c5c5d3",
                         "borderRadius": "12px",
                         "padding": "2rem",
                         "marginBottom": "2rem",
-                        "boxShadow": "0 4px 6px rgba(0, 0, 0, 0.05)",
-                        "border": "1px solid #e2e8f0"
+                        "boxShadow": "0 4px 6px rgba(0, 0, 0, 0.05)"
                     }
                 },
                 html.h2(
@@ -973,423 +1486,15 @@ def UserInputApp():
                     }
                 ),
             ),
-            # Status Section
-            html.div(
-                {
-                    "style": {
-                        "background": "white",
-                        "borderRadius": "12px",
-                        "padding": "2rem",
-                        "marginBottom": "2rem",
-                        "boxShadow": "0 4px 6px rgba(0, 0, 0, 0.05)",
-                        "border": "1px solid #e2e8f0"
-                    }
-                },
-                html.h2(
-                    {
-                        "style": {
-                            "fontSize": "1.8rem",
-                            "fontWeight": "700",
-                            "color": "#1a202c",
-                            "margin": "0 0 1.5rem 0",
-                            "borderBottom": "3px solid #667eea",
-                            "paddingBottom": "0.5rem",
-                            "display": "flex",
-                            "alignItems": "center",
-                            "gap": "0.5rem"
-                        }
-                    },
-                    "📊 Current Selection"
-                ),
-                html.div(
-                    {
-                        "style": {
-                            "display": "grid",
-                            "gridTemplateColumns": "repeat(auto-fit, minmax(250px, 1fr))",
-                            "gap": "1rem"
-                        }
-                    },
-                    # Selected States Card
-                    html.div(
-                        {
-                            "style": {
-                                "background": "#2563eb",
-                                "color": "white",
-                                "padding": "1.5rem",
-                                "borderRadius": "8px",
-                                "boxShadow": "0 2px 4px rgba(37, 99, 235, 0.3)"
-                            }
-                        },
-                        html.h3(
-                            {
-                                "style": {
-                                    "margin": "0 0 0.5rem 0",
-                                    "fontSize": "1.2rem",
-                                    "fontWeight": "700"
-                                }
-                            },
-                            "🗺️ Selected States"
-                        ),
-                        html.p(
-                            {
-                                "style": {
-                                    "margin": "0",
-                                    "fontSize": "0.9rem",
-                                    "opacity": "0.9"
-                                }
-                            },
-                            ', '.join(sorted(selected_states)) if selected_states else 'No states selected'
-                        ),
-                    ),
-                    # Selected LOBs Card
-                    html.div(
-                        {
-                            "style": {
-                                "background": "#6b7280",
-                                "color": "white",
-                                "padding": "1.5rem",
-                                "borderRadius": "8px",
-                                "boxShadow": "0 2px 4px rgba(107, 114, 128, 0.3)"
-                            }
-                        },
-                        html.h3(
-                            {
-                                "style": {
-                                    "margin": "0 0 0.5rem 0",
-                                    "fontSize": "1.2rem",
-                                    "fontWeight": "700"
-                                }
-                            },
-                            "🏢 Selected LOBs"
-                        ),
-                        html.p(
-                            {
-                                "style": {
-                                    "margin": "0",
-                                    "fontSize": "0.9rem",
-                                    "opacity": "0.9"
-                                }
-                            },
-                            ', '.join(sorted(selected_lobs)) if selected_lobs else 'No LOBs selected'
-                        ),
-                    ),
-                    # Selected Filing Types Card
-                    html.div(
-                        {
-                            "style": {
-                                "background": "#374151",
-                                "color": "white",
-                                "padding": "1.5rem",
-                                "borderRadius": "8px",
-                                "boxShadow": "0 2px 4px rgba(55, 65, 81, 0.3)"
-                            }
-                        },
-                        html.h3(
-                            {
-                                "style": {
-                                    "margin": "0 0 0.5rem 0",
-                                    "fontSize": "1.2rem",
-                                    "fontWeight": "700"
-                                }
-                            },
-                            "📄 Selected Filing Types"
-                        ),
-                        html.p(
-                            {
-                                "style": {
-                                    "margin": "0",
-                                    "fontSize": "0.9rem",
-                                    "opacity": "0.9"
-                                }
-                            },
-                            ', '.join(sorted(selected_filing_types)) if selected_filing_types else 'No filing types selected'
-                        ),
-                    ),
-                    # Selected Response Types Card
-                    html.div(
-                        {
-                            "style": {
-                                "background": "#4b5563",
-                                "color": "white",
-                                "padding": "1.5rem",
-                                "borderRadius": "8px",
-                                "boxShadow": "0 2px 4px rgba(75, 85, 99, 0.3)"
-                            }
-                        },
-                        html.h3(
-                            {
-                                "style": {
-                                    "margin": "0 0 0.5rem 0",
-                                    "fontSize": "1.2rem",
-                                    "fontWeight": "700"
-                                }
-                            },
-                            "💬 Selected Response Types"
-                        ),
-                        html.p(
-                            {
-                                "style": {
-                                    "margin": "0",
-                                    "fontSize": "0.9rem",
-                                    "opacity": "0.9"
-                                }
-                            },
-                            ', '.join(sorted(selected_response_types)) if selected_response_types else 'No response types selected'
-                        ),
-                    ),
-                    # Query Status Card
-                    html.div(
-                        {
-                            "style": {
-                                "background": "#111827",
-                                "color": "white",
-                                "padding": "1.5rem",
-                                "borderRadius": "8px",
-                                "boxShadow": "0 2px 4px rgba(17, 24, 39, 0.3)"
-                            }
-                        },
-                        html.h3(
-                            {
-                                "style": {
-                                    "margin": "0 0 0.5rem 0",
-                                    "fontSize": "1.2rem",
-                                    "fontWeight": "700"
-                                }
-                            },
-                            "💡 Query Status"
-                        ),
-                        html.p(
-                            {
-                                "style": {
-                                    "margin": "0",
-                                    "fontSize": "0.9rem",
-                                    "opacity": "0.9"
-                                }
-                            },
-                            f"First word: {user_input.split()[0]}" if user_input else "No query entered"
-                        ),
-                    ),
-                ),
-            ),
-            # Data Summary Section
-            html.div(
-                {
-                    "style": {
-                        "background": "white",
-                        "borderRadius": "12px",
-                        "padding": "2rem",
-                        "marginBottom": "2rem",
-                        "boxShadow": "0 4px 6px rgba(0, 0, 0, 0.05)",
-                        "border": "1px solid #e2e8f0"
-                    }
-                },
-                html.h2(
-                    {
-                        "style": {
-                            "fontSize": "1.8rem",
-                            "fontWeight": "700",
-                            "color": "#1a202c",
-                            "margin": "0 0 1.5rem 0",
-                            "borderBottom": "3px solid #667eea",
-                            "paddingBottom": "0.5rem",
-                            "display": "flex",
-                            "alignItems": "center",
-                            "gap": "0.5rem"
-                        }
-                    },
-                    "📈 Data Analytics"
-                ),
-                html.div(
-                    {
-                        "style": {
-                            "display": "grid",
-                            "gridTemplateColumns": "repeat(auto-fit, minmax(200px, 1fr))",
-                            "gap": "1rem",
-                            "marginBottom": "2rem"
-                        }
-                    },
-                    # Total Records
-                    html.div(
-                        {
-                            "style": {
-                                "background": "#2563eb",
-                                "color": "white",
-                                "padding": "1.5rem",
-                                "borderRadius": "8px",
-                                "textAlign": "center",
-                                "boxShadow": "0 2px 4px rgba(37, 99, 235, 0.3)"
-                            }
-                        },
-                        html.h3(
-                            {
-                                "style": {
-                                    "margin": "0 0 0.5rem 0",
-                                    "fontSize": "2rem",
-                                    "fontWeight": "700"
-                                }
-                            },
-                            str(len(filtered_data))
-                        ),
-                        html.p(
-                            {
-                                "style": {
-                                    "margin": "0",
-                                    "fontSize": "1rem",
-                                    "opacity": "0.95",
-                                    "fontWeight": "600"
-                                }
-                            },
-                            "📊 Total Records"
-                        ),
-                    ),
-                    # Unique States
-                    html.div(
-                        {
-                            "style": {
-                                "background": "#6b7280",
-                                "color": "white",
-                                "padding": "1.5rem",
-                                "borderRadius": "8px",
-                                "textAlign": "center",
-                                "boxShadow": "0 2px 4px rgba(107, 114, 128, 0.3)"
-                            }
-                        },
-                        html.h3(
-                            {
-                                "style": {
-                                    "margin": "0 0 0.5rem 0",
-                                    "fontSize": "2rem",
-                                    "fontWeight": "700"
-                                }
-                            },
-                            str(len(filtered_data['State'].unique()) if len(filtered_data) > 0 else 0)
-                        ),
-                        html.p(
-                            {
-                                "style": {
-                                    "margin": "0",
-                                    "fontSize": "1rem",
-                                    "opacity": "0.95",
-                                    "fontWeight": "600"
-                                }
-                            },
-                            "🗺️ Unique States"
-                        ),
-                    ),
-                    # Unique LOBs
-                    html.div(
-                        {
-                            "style": {
-                                "background": "#374151",
-                                "color": "white",
-                                "padding": "1.5rem",
-                                "borderRadius": "8px",
-                                "textAlign": "center",
-                                "boxShadow": "0 2px 4px rgba(55, 65, 81, 0.3)"
-                            }
-                        },
-                        html.h3(
-                            {
-                                "style": {
-                                    "margin": "0 0 0.5rem 0",
-                                    "fontSize": "2rem",
-                                    "fontWeight": "700"
-                                }
-                            },
-                            str(len(filtered_data['LOB'].unique()) if len(filtered_data) > 0 else 0)
-                        ),
-                        html.p(
-                            {
-                                "style": {
-                                    "margin": "0",
-                                    "fontSize": "1rem",
-                                    "opacity": "0.95",
-                                    "fontWeight": "600"
-                                }
-                            },
-                            "🏢 Unique LOBs"
-                        ),
-                    ),
-                    # Unique Filing Types
-                    html.div(
-                        {
-                            "style": {
-                                "background": "#4b5563",
-                                "color": "white",
-                                "padding": "1.5rem",
-                                "borderRadius": "8px",
-                                "textAlign": "center",
-                                "boxShadow": "0 2px 4px rgba(75, 85, 99, 0.3)"
-                            }
-                        },
-                        html.h3(
-                            {
-                                "style": {
-                                    "margin": "0 0 0.5rem 0",
-                                    "fontSize": "2rem",
-                                    "fontWeight": "700"
-                                }
-                            },
-                            str(len(filtered_data['Filing_Type'].unique()) if len(filtered_data) > 0 else 0)
-                        ),
-                        html.p(
-                            {
-                                "style": {
-                                    "margin": "0",
-                                    "fontSize": "1rem",
-                                    "opacity": "0.95",
-                                    "fontWeight": "600"
-                                }
-                            },
-                            "📄 Unique Filing Types"
-                        ),
-                    ),
-                    # Unique Response Types
-                    html.div(
-                        {
-                            "style": {
-                                "background": "#111827",
-                                "color": "white",
-                                "padding": "1.5rem",
-                                "borderRadius": "8px",
-                                "textAlign": "center",
-                                "boxShadow": "0 2px 4px rgba(17, 24, 39, 0.3)"
-                            }
-                        },
-                        html.h3(
-                            {
-                                "style": {
-                                    "margin": "0 0 0.5rem 0",
-                                    "fontSize": "2rem",
-                                    "fontWeight": "700"
-                                }
-                            },
-                            str(len(filtered_data['RespType'].unique()) if len(filtered_data) > 0 else 0)
-                        ),
-                        html.p(
-                            {
-                                "style": {
-                                    "margin": "0",
-                                    "fontSize": "1rem",
-                                    "opacity": "0.95",
-                                    "fontWeight": "600"
-                                }
-                            },
-                            "💬 Unique Response Types"
-                        ),
-                    ),
-                ),
-            ),
             # Sample Data Section
             html.div(
                 {
                     "style": {
-                        "background": "white",
+                        "background": "#c5c5d3",
                         "borderRadius": "12px",
                         "padding": "2rem",
                         "marginBottom": "2rem",
-                        "boxShadow": "0 4px 6px rgba(0, 0, 0, 0.05)",
-                        "border": "1px solid #e2e8f0"
+                        "boxShadow": "0 4px 6px rgba(0, 0, 0, 0.05)"
                     }
                 },
                 html.h2(
@@ -1406,7 +1511,7 @@ def UserInputApp():
                             "gap": "0.5rem"
                         }
                     },
-                    "📋 Sample Data Preview"
+                    "📋 Model Output"
                 ),
                                     html.div(
                         {
@@ -1433,7 +1538,7 @@ def UserInputApp():
                                     "fontWeight": "500"
                                 }
                             },
-                            str(filtered_data.head(10).to_string()) if len(filtered_data) > 0 else "❌ No data matches the current filters. Please adjust your filter selection."
+                            str(filtered_data.head(1).to_string()) if len(filtered_data) > 0 else "❌ No data matches the current filters. Please adjust your filter selection."
                         ),
                 ),
             ),
